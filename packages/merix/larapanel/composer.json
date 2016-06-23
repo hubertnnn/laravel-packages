@@ -1,0 +1,21 @@
+{
+    "name": "merix/larapanel",
+    "description": "Admin Panel for Laravel",
+    "keywords": ["laravel", "admin", "panel"],
+    "minimum-stability": "dev",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "h.narozny",
+            "email": "h.narozny@merixstudio.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Merix\\LaraPanel\\": "src/Merix/LaraPanel/"
+        }
+    },
+    "require": {
+        "illuminate/support": "~5"
+    }
+}
