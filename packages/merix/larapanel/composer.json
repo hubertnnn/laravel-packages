@@ -17,5 +17,6 @@
     },
     "require": {
         "illuminate/support": "~5"
+        "yajra/laravel-datatables-oracle": "~6.0"
     }
 }

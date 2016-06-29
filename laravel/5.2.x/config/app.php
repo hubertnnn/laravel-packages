@@ -157,6 +157,9 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Merix\LaraPanel\LaraPanelServiceProvider::class,
+
+
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
     ],
 
     /*

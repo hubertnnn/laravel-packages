@@ -19,6 +19,6 @@
     </li>
 @else
     <li>
-        <a href="{{ route('larapanel.admin.page', ['key' => $key]) }}">{{$item}}</a>
+        <a href="{{ route('larapanel.admin.page', ['panel' => $panel, 'key' => $key]) }}">{{$item}}</a>
     </li>
 @endif

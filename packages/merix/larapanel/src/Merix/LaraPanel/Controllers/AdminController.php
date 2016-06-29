@@ -12,6 +12,9 @@ class AdminController extends BaseController
     {
         $admin = new Admin();
 
+//        dump(route('larapanel.index'));
+
+
         $parameters = [
             'admin' => $admin,
         ];

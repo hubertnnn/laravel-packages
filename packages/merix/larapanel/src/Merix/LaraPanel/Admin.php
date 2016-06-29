@@ -5,6 +5,14 @@ namespace Merix\LaraPanel;
 
 class Admin
 {
+    protected $settings;
+
+    public function __construct($settings = null)
+    {
+        $this->settings = $settings;
+    }
+
+
     public function getName()
     {
         return 'Admin';
@@ -12,28 +20,26 @@ class Admin
 
     public function getMenu()
     {
-//        return [
-//            'Users' => [
-//                'User' => 'User',
-//                'Group' => 'Group',
-//            ]
-//        ];
+        return $this->settings['admins'];
+    }
 
-        return [
-            'Users' => 'Users',
-            'Groups' => 'Groups',
-            'Subs' => [
-                'Sub1' => 'Sub1',
-                'Sub2' => 'Sub2',
-            ],
-            'SuperSubs' => [
-                'S1' =>[
-                    'S2' => [
-                        'S3' => 'S4'
-                    ]
-                ]
-            ]
-        ];
+    public function getConfig($key)
+    {
+        return $this->settings[$key];
+    }
+
+
+
+
+    public function getPanelName()
+    {
+
+
+    }
+
+    public function getAdminName()
+    {
+
     }
 
 }
