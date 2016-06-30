@@ -19,5 +19,7 @@ interface PanelContract
 
     public function getLocales();
 
+    public function getDefaultAdmin();
+
 
 }

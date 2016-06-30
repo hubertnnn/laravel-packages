@@ -4,29 +4,26 @@ namespace Merix\LaraPanel\Controllers;
 
 use Illuminate\Routing\Controller as BaseController;
 use Merix\LaraPanel\Admin;
+use Merix\LaraPanel\Panel;
 
 class AdminController extends BaseController
 {
 
-    public function index()
+    public function index($panelName)
     {
-        $admin = new Admin();
+        $panel = new Panel($panelName);
+        $adminName = $panel->getDefaultAdmin();
 
-//        dump(route('larapanel.index'));
-
-
-        $parameters = [
-            'admin' => $admin,
-        ];
-
-
-        return view('larapanel::panel', $parameters);
+        return redirect(route('larapanel.admin.page', ['panel' => $panelName, 'key'=> $adminName]));
     }
 
 
-    public function get()
+    public function get($panelName, $adminName)
     {
-        return $this->index();
+        $panel = new Panel($panelName);
+        $admin = new Admin($panel, $adminName);
+
+
     }
 
 }

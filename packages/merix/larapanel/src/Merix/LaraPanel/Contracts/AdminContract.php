@@ -21,4 +21,7 @@ interface AdminContract
     public function getPermissions();
 
 
+    public function getName();
+    public function getPanel();
+
 }

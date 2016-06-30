@@ -12,6 +12,10 @@ class Panel implements PanelContract
     protected $theme;
 
 
+    public function __construct($panelName)
+    {
+
+    }
 
 
     public function getUri()
@@ -62,6 +66,11 @@ class Panel implements PanelContract
     public function getLocales()
     {
         // TODO: Implement getLocales() method.
+    }
+
+    public function getDefaultAdmin()
+    {
+        // TODO: Implement getDefaultAdmin() method.
     }
 
 
