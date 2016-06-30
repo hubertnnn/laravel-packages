@@ -1,1 +1,62 @@
 https://websanova.com/blog/laravel/creating-a-new-package-in-laravel-5-part-1-package-workflow
+
+
+
+LaraPanel (full rest) [depends on]
+
+Larapanel
+    Depends on
+    - Larapanel-Core
+    - Larapanel-Frontend
+    - Larapanel-Backend
+    Meta package for downloading larapanel
+
+Larapanel-Frontend
+    Depends on
+    - Larapanel-Core
+    - Larapanel-Frontend-Panel
+    - Larapanel-Frontend-CMS
+    Main frontend system (framework independent) consists of:
+    - index.html (contains variables: type {panel|cms}, restRoute {/admin/|/user/|...})
+    - larapanel.css
+    - larapanel.js
+
+Larapanel-Frontend-Panel
+    Makes larapanel look like FrozennodeAdministrator
+    Framework independent
+    Consists of:
+    - larapanel-frontend-panel.html
+    - larapanel-frontend-panel.css
+    - larapanel-frontend-panel.js
+
+Larapanel-Frontend-CMS
+    Makes larapanel look like SonataAdmin
+    Framework independent
+    Consists of:
+    - larapanel-frontend-cms.html
+    - larapanel-frontend-cms.css
+    - larapanel-frontend-cms.js
+
+Larapanel-Backend
+    Depends on
+    - Larapanel-Core
+    - Larapanel-Backend-Laravel
+    - Larapanel-Backend-Symfony
+    Meta package for backend
+
+Larapanel-Backend-Laravel
+    Depends on
+    - Larapanel-Core
+    Provides:
+    - Rest bindings from Laravel Routing
+    - Eloquent Database access
+    - Laravel like config files
+
+Larapanel-Backend-Symfony
+    Depends on
+    - Larapanel-Core
+    Provides:
+    - Routing yml file
+    - Doctrine database access
+    - yml config files
+    - services
