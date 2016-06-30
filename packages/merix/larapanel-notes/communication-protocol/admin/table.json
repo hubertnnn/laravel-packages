@@ -1,0 +1,14 @@
+{
+    "Route": "/{panel}/{admin}/__table",
+
+    "Request":
+    {
+        "key":   "{key}",
+        "panel": "{panel}",
+        "admin": "{admin}",
+    },
+
+    "Response": "Handled by Datatable plugin"
+
+}
+

@@ -1,0 +1,39 @@
+{
+    "Route": "/{panel}/{admin}/__admin",
+
+    "Request":
+    {
+        "key":   "{key}",
+        "panel": "{panel}",
+        "admin": "{admin}",
+    },
+
+    "Response":
+    {
+        "key":   "{key}",
+        "panel": "{panel}",
+        "admin": "{admin}",
+
+
+        "type": "entity | global | single | table | custom",
+
+        "name": "Admin name used in left corner",
+        "actions": [
+            {
+                "name": "new",
+                "label": "New",
+                "tooltip": "Text shown on hover",
+            },
+            {
+                "name": "something-else",
+                "label": "Text on button",
+                "tooltip": "Text shown on hover",
+            },
+        ],
+
+        "view": "where to load custom content from",
+
+    },
+
+}
+

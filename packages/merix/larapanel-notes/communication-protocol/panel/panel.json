@@ -1,0 +1,38 @@
+{
+    "Route": "/{panel}/__panel",
+
+    "Request":
+    {
+        "key":   "{key}",
+        "panel": "{panel}",
+    },
+
+    "Response":
+    {
+        "key":   "{key}",
+        "panel": "{panel}",
+
+        "type": "cms | panel",
+        "theme": "default | slate | ...",
+
+        "name": "Panel name used in left corner",
+        "default": "{admin}",
+        "menu": [
+            {
+                "name": "Text that is shown",
+                "admin": "{admin}"
+            },
+            {
+                "name": "Text that is shown",
+                "menu": [
+                    {
+                        "name": "Text that is shown",
+                        "admin": "{admin}"
+                    },
+                ],
+            },
+        ].
+    },
+
+}
+

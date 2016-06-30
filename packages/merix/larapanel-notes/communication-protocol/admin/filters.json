@@ -1,0 +1,39 @@
+{
+    "Route": "/{panel}/{admin}/__filters",
+
+    "Request":
+    {
+        "key":   "{key}",
+        "panel": "{panel}",
+        "admin": "{admin}",
+    },
+
+    "Response": {
+
+        "key":   "{key}",
+        "panel": "{panel}",
+        "admin": "{admin}",
+
+        "width": "20%",
+
+        "filters": [
+            {
+                "name": "{field}",
+                "label": "text shown under filter",
+                "tooltip": "text shown on hover",
+                "placeholder": "text shown if filter is empty",
+                "type": "{field-type}",
+                "data": "extra data that can be used by specific filters eg. select values",
+            },
+            {
+                "name": "{field}",
+                "label": "text shown under filter",
+                "tooltip": "text shown on hover",
+                "placeholder": "text shown if filter is empty",
+                "type": "{field-type}",
+                "data": "extra data that can be used by specific filters eg. select values",
+            },
+        ],
+    }
+}
+

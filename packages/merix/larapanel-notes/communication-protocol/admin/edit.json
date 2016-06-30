@@ -1,0 +1,76 @@
+{
+    "Route": "/{panel}/{admin}/__edit",
+
+    "Request":
+    {
+        "key":   "{key}",
+        "panel": "{panel}",
+        "admin": "{admin}",
+    },
+
+    "Response": {
+
+        "key":   "{key}",
+        "panel": "{panel}",
+        "admin": "{admin}",
+
+        "width": "50%",
+
+        "tabs": [
+            {
+                "name": "tab name",
+                "label": "tab label",
+                "class": "section classes",
+            },
+        ],
+
+        "sections": [
+            {
+                "name": "section name",
+                "label": "section label",
+                "class": "section classes",
+
+                "tab": "tab name",
+                "parent": "section name",
+            },
+        ],
+
+        "fields": [
+            {
+                "name": "fields name",
+                "label": "fields label",
+
+                "tab": "tab name",
+                "section": "section name",
+
+                "type": "{filed-type}",
+            },
+        ],
+
+
+        "actions": [
+            {
+                "name": "save",
+                "Label": "Save",
+                "tooltip": "Text shown on hover",
+                "include-data": true,
+            },
+            {
+                "name": "cancel",
+                "Label": "Cancel",
+                "tooltip": "Text shown on hover",
+                "include-data": false,
+            },
+            {
+                "name": "delete",
+                "Label": "Delete",
+                "tooltip": "Text shown on hover",
+                "include-data": ["id"],
+            },
+        ],
+
+
+    }
+
+}
+

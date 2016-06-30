@@ -1,0 +1,38 @@
+Entity admin:
+    Contains:
+    - Grid View
+    - Filters
+    - Edit panel
+    Edits:
+    - Entities
+    - Models
+    - Json files
+
+Global admin:
+    Contains:
+    - Edit panel only (full screen)
+    Edits:
+    - Json files
+
+Single admin:
+    Contains:
+    - Edit panel only (full screen)
+    Edits:
+    - Entities (single entity)
+    - Models (single model)
+    - Json files
+
+Table admin:
+    Contains:
+    - Grid View
+    - Filters
+    Edits:
+    - Entities
+    - Models
+    - Json files
+    Inline edition in datatable. No edit panel.
+    Save button as Action.
+    Stores edited data in session until saved.
+
+Custom:
+    Lets you render the entire admin area.
