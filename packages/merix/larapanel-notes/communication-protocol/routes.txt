@@ -1,0 +1,16 @@
+/{panel}
+/{panel}/__panel
+/{panel}/__action/{action}
+
+/{panel}/{admin}/__admin
+/{panel}/{admin}/__action/{action}
+/{panel}/{admin}/__edit
+/{panel}/{admin}/__filters
+/{panel}/{admin}/__search
+/{panel}/{admin}/__table
+
+/{panel}/{admin}/{id}
+/{panel}/{admin}/{id}/__store
+
+/{panel}/{admin}/{id}/{field-name}/__thumb
+/{panel}/{admin}/{id}/{field-name}/__download

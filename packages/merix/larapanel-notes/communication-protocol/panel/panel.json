@@ -15,7 +15,10 @@
         "type": "cms | panel",
         "theme": "default | slate | ...",
 
-        "name": "Panel name used in left corner",
+        "name": "Panel name used in left corner and in title bar",
+        "icon": "Panel icon used in left corner and as favicon",
+        "favicon": "overrides icon to become favicon",
+
         "default": "{admin}",
         "menu": [
             {
@@ -31,7 +34,40 @@
                     },
                 ],
             },
-        ].
+        ],
+
+        "actions": [
+            {
+                "name": "logout",
+                "Label": "Logout",
+                "Icon": "glyphicon glyphicon-off",
+                "tooltip": "Text shown on hover",
+                "path": "/logout",
+                "redirect": true,
+                "visible": true,
+                "allowed": true,
+            },
+            {
+                "name": "return",
+                "Label": "Back to page",
+                "Icon": "glyphicon glyphicon-home",
+                "tooltip": "Text shown on hover",
+                "path": "/",
+                "redirect": true,
+                "visible": true,
+                "allowed": true,
+            },
+            {
+                "name": "default",
+                "Label": "",
+                "Icon": "",
+                "tooltip": "",
+                "path": "/{panel}/__action/{action}",
+                "redirect": false,
+                "visible": true,
+                "allowed": true,
+            },
+        ],
     },
 
 }

@@ -44,7 +44,52 @@
                 "section": "section name",
 
                 "type": "{filed-type}",
+                "limits": "true|false",
+                "depends": [
+                    "field name 1",
+                    "field name 2",
+                    "if field from this list gets modified, it will reload this field limits and permissions",
+                ],
+
+                "include-data": "true|false|['id', 'field-name'] (data from other fields that you want to be included in search)",
+                "read-only": false,
             },
+
+            {
+                "name": "date-time-field",
+                "type": "date-time",
+
+                "...": "...",
+
+                "show-time":  "utc|local default is local",
+                "store-time": "utc|local default is utc",
+                "format": "YYYY.MM.DD hh.mm.ss",
+            },
+
+            {
+                "name": "file-field",
+                "type": "file",
+
+                "...": "...",
+
+            },
+
+            {
+                "name": "relation-field",
+                "type": "relation",
+
+                "...": "...",
+
+                "subtype": "select|autocomplete|table",
+                "add": "true|false|auto",
+                "select": "true|false",
+                "multiple": "true|false",
+
+                "admin": "{admin} used for adding new values",
+
+
+            },
+
         ],
 
 
@@ -54,18 +99,24 @@
                 "Label": "Save",
                 "tooltip": "Text shown on hover",
                 "include-data": true,
+                "visible": true,
+                "allowed": true,
             },
             {
                 "name": "cancel",
                 "Label": "Cancel",
                 "tooltip": "Text shown on hover",
                 "include-data": false,
+                "visible": true,
+                "allowed": true,
             },
             {
                 "name": "delete",
                 "Label": "Delete",
                 "tooltip": "Text shown on hover",
                 "include-data": ["id"],
+                "visible": true,
+                "allowed": true,
             },
         ],
 

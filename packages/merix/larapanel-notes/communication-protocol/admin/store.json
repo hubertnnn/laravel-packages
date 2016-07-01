@@ -1,0 +1,80 @@
+{
+    "Route": "/{panel}/{admin}/{id}/__store",
+
+    "Request":
+    {
+        "key":   "{key}",
+        "panel": "{panel}",
+        "admin": "{admin}",
+        "id":    "{id}",
+
+        "fields": [
+            {
+                "name": "field name",
+                "value": "serialized field value set as parameter for set() function",
+            },
+            {
+                "name": "field name",
+                "value": "serialized field value set as parameter for set() function",
+            },
+            {
+                "name": "file-field",
+                "value": "base64 file | null",
+                "file-name": "new filename.png | null",
+            },
+            {
+                "name": "relation-field",
+                "value": [
+                    {
+                        "id": "id of related object",
+
+                    },
+                    {
+                        "id": "0 (zero means autocreate a new object)",
+                        "value": "text provided by user, parametor of autocreate() function",
+                    },
+                ],
+            },
+            {
+                "name": "relation-table-field",
+                "value": [
+                    {
+                        "id": "related id | 0 (zero means autocreate a new object)",
+                        "values": [
+                            {
+                                "name": "table-colum-name-1",
+                                "...": "other fields internals",
+                            },
+                            {
+                                "name": "table-column-name-2",
+                                "...": "other fields internals",
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
+
+    },
+
+    "Response": {
+
+        "key":   "{key}",
+        "panel": "{panel}",
+        "admin": "{admin}",
+        "id":    "{id}",
+
+        "success": true,
+        "errors": "serialized error message list",
+
+        "close": "true|false true: will close current edit window or return to list (only on success)",
+        "redirect": "/page/to/redirect/to | false  if you want to redirect to a different page, this is how (only on success)",
+
+
+        "fields":  "just returns current values, so edit can be updated (same as in data.json) (only on success)",
+        "actions": "same as data.json (only on success)",
+
+    }
+
+}
+

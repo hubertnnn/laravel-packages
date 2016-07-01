@@ -1,0 +1,47 @@
+Boolean
+Number
+Enum
+
+Text
+    - Editor: [text, big, ckeditor, tinymce, markdown, hidden, password]
+
+TextArea: alias for Text[big]
+Wyswig:   alias for Text[ckeditor]
+Markdown: alias for Text[markdown]
+hidden:   alias for Text[hidden]
+password: alias for Text[password]
+
+DateTime
+    - date: true|false
+    - time: true|false
+    - show: local|utc
+    - store utc|local
+    By default time will be shown locally and stored as UTC
+
+Date: alias for Date[true, false]
+Time: alias for Date[false, true]
+
+Color
+
+File
+    - location: path to place where file should be located
+    - name-generator: function that will create a name for this file | one of prepared constants for registered functions
+    - name-field: field where original file name will be stored. File can be renamed
+    - size-field: field where file size will be stored (if not provided will count size every time | store it in cache)
+    We need a way to handle external file storage
+
+Picture
+
+Separator
+    - just a way to make it look better
+
+Relation
+    - subtype: select|autocomplete|table
+    - add: true|false|auto (true: you will have "new" button, false: you cannot add new, auto: now values will be created for you (depending on subtype)
+    - select: true|false (true: you can select existing items, false: you can only create new items and connect them here)
+
+Custom
+    - render: function()
+    - output: function()
+    - get: function()
+    - set: function()

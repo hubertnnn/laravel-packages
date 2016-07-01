@@ -1,0 +1,40 @@
+{
+    "Route": "/{panel}/{admin}/__search",
+
+    "Request":
+    {
+        "key":   "{key}",
+        "panel": "{panel}",
+        "admin": "{admin}",
+
+        "fields": [
+            {
+                "name": "field name",
+                "data": "serialized search data used as parameter for search() function",
+                "include-data": "other fields included (may be used as filter for search)",
+            },
+        ],
+    },
+
+    "Response": {
+
+        "key":   "{key}",
+        "panel": "{panel}",
+        "admin": "{admin}",
+
+        "fields": [
+            {
+                "name": "field name",
+                "data": "serialized search data returned from search() function",
+                "read-only": "true|false override the current permission to write",
+                "reset": "true|false",
+                "reset-to": "reset field to this value (eg. if current value is invalid)",
+            },
+        ],
+
+
+
+    }
+
+}
+

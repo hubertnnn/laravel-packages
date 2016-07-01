@@ -1,0 +1,6 @@
+Panel should be showing current timezone and have the ability to change it.
+
+Options should be stored in session (locally) or on server (per account)
+Options include:
+    - timezone
+    - locale
