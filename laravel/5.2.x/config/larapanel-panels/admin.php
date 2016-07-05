@@ -11,6 +11,10 @@ return [
             'user' => 'User',
             'group' => 'Group',
         ],
+        'Admins' => [
+            'user' => 'User',
+            'group' => 'Group',
+        ],
     ],
 
 ];

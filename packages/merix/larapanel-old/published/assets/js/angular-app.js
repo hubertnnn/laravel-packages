@@ -17,15 +17,20 @@ function loadDatatables()
         select: 'single',
 
         "columns": [
+
             {
+                responsivePriority: 1,
+                data: 'id'
+            },
+            {
+                responsivePriority: 3,
                 data: 'name'
             },
             {
+                responsivePriority: 2,
                 data: 'email'
             },
-            {
-                data: 'other'
-            },
+
         ],
 
     });

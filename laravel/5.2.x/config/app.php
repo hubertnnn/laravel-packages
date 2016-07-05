@@ -156,7 +156,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        Merix\LaraPanel\LaraPanelServiceProvider::class,
+        Merix\LaraPanel\Backend\Laravel\LaraPanelServiceProvider::class,
 
 
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
