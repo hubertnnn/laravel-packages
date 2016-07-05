@@ -22,14 +22,17 @@
         "default": "{admin}",
         "menu": [
             {
-                "name": "Text that is shown",
+                "label": "Text that is shown",
+                "class": "class used",
                 "admin": "{admin}"
             },
             {
-                "name": "Text that is shown",
+                "label": "Text that is shown",
+                "class": "class used",
                 "menu": [
                     {
-                        "name": "Text that is shown",
+                        "label": "Text that is shown",
+                        "class": "class used",
                         "admin": "{admin}"
                     },
                 ],

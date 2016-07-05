@@ -66,7 +66,7 @@ return [
             'placeholder' => 'filter placeholder',
 
             'enabled' => 'true|false|function()',
-            'handle' => 'function($field, $value, $query) returns $query',
+            'handle' => 'function($query, $value, $field) returns $query',
         ],
     ],
 

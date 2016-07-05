@@ -1,0 +1,67 @@
+{
+    "Route": "/{panel}/{admin}/__action/{action}",
+
+    "Request":
+    {
+        "key":   "{key}",
+        "panel": "{panel}",
+        "admin": "{admin}",
+        "action": "{action}",
+
+        "data": "serialized version of current data in filters/entity",
+
+    },
+
+    "Response":
+    {
+        "key":   "{key}",
+        "panel": "{panel}",
+        "admin": "{admin}",
+        "action": "{action}",
+
+
+        "refresh": "true|false",
+
+        "redirect": "/path/to/redirect/to",
+
+        "open-edit": {
+            "admin": "{admin}",
+            "id": "{id}",
+        },
+
+        "close-edit": true,
+
+        "fill-fields": {
+            "field-name": "serialized-field-value | related field in case of open_edit",
+        },
+
+        "errors": {
+            "field-name": "message",
+            "field-name-two": "message",
+        },
+
+        "messages": [
+            {
+                "class": "message class",
+                "label": "label for message title",
+                "message": "message that is shown",
+                "time": "2000",
+            },
+        ],
+
+        "popup": [
+            {
+                "class": "message class",
+                "label": "label for message title",
+                "message": "message that is shown",
+                "button": "label on button",
+            },
+        ],
+
+
+
+    },
+
+}
+
+

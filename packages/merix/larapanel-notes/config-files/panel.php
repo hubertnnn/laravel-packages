@@ -18,10 +18,30 @@ return [
         'Not users' => '{admin}',
     ],
 
+    // Alternative way (instead of admins)
+    'menu' => [
+        [
+            'admin' => '{admin}',
+
+            'label' => 'Label that will show on menu',
+            'class' => 'custom classes',
+
+            'parent' => 'parent menu name',
+            'children' => 'alternative to parent | array of menu items',
+        ],
+        'menu-name' => [
+            '...' => '...',
+        ],
+        [
+            'name' => 'menu-name',
+            '...' => '...',
+        ],
+    ],
+
     'default-admin' => '{admin}',
 
     'actions' => [
-        'logout' => 'true',
+        'logout' => 'true|false|null', //NULL = not visible, FALSE = disabled, TRUE = enabled
         'homepage' => 'true',
     ],
 

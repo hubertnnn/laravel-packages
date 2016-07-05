@@ -1,0 +1,14 @@
+- root directory
+    - js
+        core.js
+        cms.js
+        panel.js
+    - css
+        core.css
+        cms.css
+        panel.css
+    - themes
+        - {theme-name}
+            - theme.js
+            - theme.css
+

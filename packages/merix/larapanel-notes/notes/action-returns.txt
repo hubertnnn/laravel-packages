@@ -1,0 +1,45 @@
+Actions can return following things:
+
+- refresh: force reload current data
+- redirect: redirect browser to custom URL
+- open-edit: open a new edit (if edit is already opened it will stack new one on top of current)
+- close-edit: close edit that is on top of stack
+- fill-fields: fill fields with returned data
+- errors: show errors on certain fields
+- message: show global message that will disappear after 2 seconds
+- popup: show global message that will stay until dismissed
+
+
+Action combinations:
+
+- open-edit + fill-fields: will fill the fields with data returned with close-edit
+- close-edit + fill-fields: will send data to be closed
+
+eg. Create a new related object and connect it to current one
+{
+    "open-edit": {
+        "admin": "related-admin",
+        "id": "0"
+    },
+
+    "fill-fields": {
+        "relation-field": "_",
+        "relation-id-field": "id",
+        "relation-name-field": "name",
+        "+multi-relation-field": ["id"],
+    },
+}
+
+than when closing:
+
+{
+    "close-edit": {
+        "admin": "related-admin",
+        "id": "0"
+    },
+
+    "fill-fields": {            // This will set relation-field with serialized entity
+        "id": "14",             // This will set relation-id-field to 14 and add 14 to multi-relation-field
+        "name": "something",    // This will set relation-name-field to something
+    },
+}
