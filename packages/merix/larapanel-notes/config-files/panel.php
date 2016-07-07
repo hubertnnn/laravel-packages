@@ -21,6 +21,7 @@ return [
     // Alternative way (instead of admins)
     'menu' => [
         [
+            'name' => 'menu name',
             'admin' => '{admin}',
 
             'label' => 'Label that will show on menu',
@@ -53,7 +54,7 @@ return [
             "tooltip" => "Text shown on hover",
             "visible" => 'true|false|function()',
             "allowed" => 'true|false|function()',
-            "handle"  => 'function()',
+            "handle"  => 'function($owner, $data, $actionManagement)',
 
         ],
     ],
