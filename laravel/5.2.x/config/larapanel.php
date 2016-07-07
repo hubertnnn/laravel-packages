@@ -2,19 +2,14 @@
 
 
 return [
-    'route' => 'admin2',
+
+    'panel-dir' => 'larapanel-panels',
+    'admin-dir' => 'larapanel-admins',
 
     'panels' => [
         'admin',
         'user',
+        'test',
     ],
-
-    'test1' => 'aaa',
-    'test2' => function(){
-        return 'bbb';
-    },
-    'test3' => function($in){
-        return 'ccc'.$in;
-    },
 
 ];
