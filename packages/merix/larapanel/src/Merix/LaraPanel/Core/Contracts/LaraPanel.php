@@ -27,15 +27,20 @@ interface LaraPanel
      * @return Admin
      */
     public function getAdmin();
+    public function getAdminName();
 
     /**
      * @return Panel
      */
     public function getPanel();
+    public function getPanelName();
 
     /**
      * @return Config
      */
     public function getConfig();
+
+    /** @return Utils */
+    public function getUtils();
 
 }

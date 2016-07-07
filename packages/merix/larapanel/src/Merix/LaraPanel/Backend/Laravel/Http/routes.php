@@ -2,10 +2,9 @@
 
 Route::group(['namespace' => '\Merix\LaraPanel\Backend\Laravel\Http\Controllers'], function()
 {
-    $panels = [
-        'admin',
-        'user',
-    ];
+    $larapanel = \App::make('Merix\LaraPanel\Core\Contracts\LaraPanel');
+
+    $panels = $larapanel->getConfig()->getValue('larapanel.panels');
     $panels = '^(' . implode('|', $panels) . ')$';
 
 

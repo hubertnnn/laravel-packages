@@ -17,11 +17,13 @@ class LaraPanelServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        require __DIR__ . '/Http/routes.php';
 
         \App::singleton('Merix\LaraPanel\Core\Contracts\LaraPanel', function($app){
             return new LaraPanel();
         });
+
+
+        require __DIR__ . '/Http/routes.php';
     }
 
     /**
