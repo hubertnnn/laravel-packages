@@ -3,6 +3,7 @@
 namespace Merix\LaraPanel\Backend\Laravel\Modules;
 
 use Illuminate\Support\Collection;
+use Merix\LaraPanel\Core\Components\Menu;
 use Merix\LaraPanel\Core\Contracts\LaraPanel;
 use Merix\LaraPanel\Core\Contracts\Modules\Panel as BasePanel;
 
@@ -22,6 +23,34 @@ class Panel implements BasePanel
     }
 
 
+    private function parseMenu( $root, $parent = '')
+    {
+        static $id = 1;
+
+        $name = val($root, 'name', 'menu_'.($id++));
+        $admin = val($root, 'admin', '');
+
+        $label = val($root, 'label', '');
+        $class = val($root, 'class', '');
+
+        $parent = val($root, 'admin', $parent);
+        $children = val($root, 'children', []);
+
+        $item = new Menu($this, $name, $label, $admin, $class);
+        $item->parent = $parent;
+
+        foreach($children as $child)
+        {
+            $item->children[] = $this->parseMenu($child, $name);
+        }
+
+        if($admin)
+            $this->admins[] = $admin;
+
+        $this->menu[$name] = $item;
+        return $item;
+    }
+
     private function initMenu()
     {
         // If its already initiated
@@ -40,31 +69,32 @@ class Panel implements BasePanel
         }
 
 
+        function parseAdmin($root)
+        {
+            $class = val($root, 'class', '');
+            $label = val($root, 'label', '');
+            $admin = val($root, 'admin', '');
+            $parent = val($root, 'admin', '');
+        }
+
+
+
 
         $this->admins = [];
         $this->menu = [];
 
-        $struct = $this->laraPanel->getConfig()->getValue('panel.admins', $this);
-        $this->admins = array_flatten($struct);
+//        $struct = $this->laraPanel->getConfig()->getValue('panel.admins', $this);
+//        $this->admins = array_flatten($struct);
 
 
-        $struct = $this->laraPanel->getConfig()->getValue('panel.menu', $this);
-        foreach($struct as $name => $menuItem)
+        $struct = $this->laraPanel->getConfig()->getValue('panel.menu', $this, []);
+        foreach($struct as $item)
         {
-            $name = val($menuItem, 'name', $name);
-
-            //TODO: Continue here / need a better parser
-
-            $this->menu[$name] = [
-                'label' => $name,
-                'class' => '',
-                'admin' => '',
-                'menu' => [],
-            ];
-
-
+            $this->parseMenu($item);
         }
 
+        dump($this->admins);
+        dump($this->menu);
 
     }
 
@@ -92,12 +122,12 @@ class Panel implements BasePanel
 
     public function getIconUrl()
     {
-        return $this->laraPanel->getConfig()->getValue('panel.icon', $this);
+        return asset($this->laraPanel->getConfig()->getValue('panel.icon', $this));
     }
 
     public function getFaviconUrl()
     {
-        return $this->laraPanel->getConfig()->getValue('panel.favicon', $this, $this->getIconUrl());
+        return asset($this->laraPanel->getConfig()->getValue('panel.favicon', $this, $this->getIconUrl()));
     }
 
     public function getDefaultAdmin()
@@ -113,7 +143,8 @@ class Panel implements BasePanel
 
     public function getMenuStructure()
     {
-        // TODO: Implement getMenuStructure() method.
+        $this->initMenu();
+        return $this->menu;
     }
 
     public function getActions()
