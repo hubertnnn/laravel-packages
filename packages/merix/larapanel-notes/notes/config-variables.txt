@@ -1,0 +1,35 @@
+Config variables can be defined in following ways:
+
+Laravel:
+
+    As constants
+    [
+        'field' => 'value'
+    ]
+
+    As closures
+    [
+        'field' => function(){return 'value';}
+    ]
+
+    As services
+    [
+        'field' => ['service@function']
+    ]
+
+    As class functions
+    [
+        'field' => ['\full\path\to\class@function']
+    ]
+
+Symfony:
+
+    As constants
+    group:
+        field: 'value'
+
+    As services
+    group:
+        field:
+            service: 'service.name'
+            function: 'function'
