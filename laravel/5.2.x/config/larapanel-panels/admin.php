@@ -6,8 +6,8 @@ return [
     'theme' => 'default',
 
     'name' => 'Admin',
-    'icon' => asset('aaa.png'),
-    'favicon' => asset('bbb.png'),
+    'icon' => 'aaa.png',
+    'favicon' => 'bbb.png',
 
     'admins' => [
         'Test 1' => 'test1',

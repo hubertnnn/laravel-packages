@@ -6,15 +6,30 @@ return [
     'theme' => 'slate',
 
     'name' => 'User',
-    'icon' => asset('xxx.png'),
-    'favicon' => asset('yyy.png'),
+    'icon' => 'xxx.png',
+    'favicon' => 'yyy.png',
 
-    'admins' => [
-        'Test 1' => 'test1',
-        'Test 2' => 'test2',
-        'Menu 1' => [
-            'Test 3' => 'test3',
-            'Test 4' => 'test4',
+    'menu' => [
+        [
+            'label' => 'Label 1',
+            'class' => 'class-1',
+            'admin' => 'admin1',
+        ],
+        [
+            'label' => 'Label 2',
+            'class' => 'class-2',
+            'menu' => [
+                [
+                    'label' => 'Label 3',
+                    'class' => 'class-3',
+                    'admin' => 'admin3',
+                ],
+                [
+                    'label' => 'Label 4',
+                    'class' => 'class-4',
+                    'admin' => 'admin4',
+                ],
+            ],
         ],
     ],
 
