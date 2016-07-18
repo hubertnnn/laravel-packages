@@ -24,12 +24,12 @@ class ConfigNode implements BaseConfigNode, \Iterator
         if($key == '' || $key == null)
         {
             // We are in curent node, get result
-            return  $this->config->exists($this->path);
+            return $this->config->exists($this->path);
         }
         else
         {
             // We need to get the node
-            $this->getNode($key, false)->exists('');
+            return $this->getNode($key, false)->exists('');
         }
     }
 
@@ -59,12 +59,12 @@ class ConfigNode implements BaseConfigNode, \Iterator
         if($key == '' || $key == null)
         {
             // We are in curent node, get result
-            return  $this->config->getClosure($this->path, $forceExists);
+            return $this->config->getClosure($this->path, $forceExists);
         }
         else
         {
             // We need to get the node
-            $this->getNode($key, false)->getClosure('', $forceExists = false);
+            return $this->getNode($key, false)->getClosure('', $forceExists = false);
         }
     }
 
@@ -73,12 +73,12 @@ class ConfigNode implements BaseConfigNode, \Iterator
         if($key == '' || $key == null)
         {
             // We are in curent node, get result
-            return  $this->config->getValue($this->path, $owner, $default);
+            return $this->config->getValue($this->path, $owner, $default);
         }
         else
         {
             // We need to get the node
-            $this->getNode($key, false)->getValue('', $forceExists = false);
+            return $this->getNode($key, false)->getValue('', $owner, $default);
         }
     }
 
@@ -87,12 +87,12 @@ class ConfigNode implements BaseConfigNode, \Iterator
         if($key == '' || $key == null)
         {
             // We are in curent node, get result
-            return  $this->config->getArray($this->path, $owner, $default);
+            return $this->config->getArray($this->path, $owner, $default);
         }
         else
         {
             // We need to get the node
-            $this->getNode($key, false)->getArray('', $forceExists = false);
+            return $this->getNode($key, false)->getArray('', $owner, $default);
         }
     }
 

@@ -73,7 +73,7 @@ class Config implements BaseConfig
                 return $closure;
             }
 
-            if(is_array($closure) && (count($closure) == 1))
+            if(is_array($closure) && (count($closure) == 1) && is_string($closure[0]))
             {
                 $closure = explode('@', $closure[0]);
                 if(count($closure) == 2)
