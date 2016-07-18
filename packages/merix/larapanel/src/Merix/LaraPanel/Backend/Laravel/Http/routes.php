@@ -4,7 +4,7 @@ Route::group(['namespace' => '\Merix\LaraPanel\Backend\Laravel\Http\Controllers'
 {
     $larapanel = \App::make('Merix\LaraPanel\Core\Contracts\LaraPanel');
 
-    $panels = $larapanel->getConfig()->getValue('larapanel.panels');
+    $panels = $larapanel->getConfig()->getArray('larapanel.panels');
     $panels = '^(' . implode('|', $panels) . ')$';
 
 

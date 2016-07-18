@@ -65,9 +65,23 @@ class Action implements ActionManagement
 
     public function toArray()
     {
-        return $this->response;
+        return [
+            'name' => $this->name,
+            'label' => $this->label,
+            'class' => $this->class,
+            'icon' => $this->icon,
+            'tooltip' => $this->tooltip,
+            'redirect' => $this->redirect,
+            'path' => $this->path,
+            'visible' => $this->visible,
+            'allowed' => $this->allowed,
+        ];
     }
 
+    public function getResponse()
+    {
+        return $this->response;
+    }
 
 
 

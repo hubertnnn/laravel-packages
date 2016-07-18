@@ -29,7 +29,7 @@ class PanelController extends Controller
             'favicon'   => $panel->getFaviconUrl(),
             'default'   => $panel->getDefaultAdmin(),
             'menu'      => $panel->getMenuStructure(),
-            'actions'   => $panel->getActions(),
+            'actions'   => $panel->getActionStructure(),
         ];
 
         return $response;

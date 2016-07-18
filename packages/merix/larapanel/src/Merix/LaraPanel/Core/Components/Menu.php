@@ -32,11 +32,6 @@ class Menu
         $this->children = [];
     }
 
-    public function setupChildren($allMenuItems)
-    {
-        $allMenuItems[$this->parent]->children[] = $this;
-    }
-
     public function toArray()
     {
         $childrenArray = [];

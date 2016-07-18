@@ -27,5 +27,6 @@ interface Panel
     public function getMenuStructure();
 
     public function getActions();
+    public function getActionStructure();
 
 }
