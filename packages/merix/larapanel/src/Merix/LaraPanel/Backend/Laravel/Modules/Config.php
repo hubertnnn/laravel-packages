@@ -42,37 +42,122 @@ class Config implements BaseConfig
 
     }
 
-    public function getClosure($key, $forceExists = false)
+    /** Check if node exists */
+    public function exists($key = null)
     {
         $key = $this->translateKey($key);
+        return app('config')->has($key);
+    }
 
-        $value = config($key);
+    /** Check return the subnode */
+    public function getNode($key = null, $nullIfEmpty = true)
+    {
+        if($nullIfEmpty && !$this->exists($key))
+        {
+            return null;
+        }
+        return new ConfigNode($this, $key);
+    }
 
-        if(!($value instanceof \Closure))
-            $value = null;
 
-        if(($value === null) && $forceExists)
-            return function($owner, $input){ return $input; };
+    /** Return the node as closure */
+    public function getClosure($key = null, $forceExists = false)
+    {
+        if($this->exists($key))
+        {
+            $key = $this->translateKey($key);
+            $closure = config($key);
+
+            if(is_callable($closure))
+            {
+                return $closure;
+            }
+
+            if(is_array($closure) && (count($closure) == 1))
+            {
+                $closure = explode('@', $closure[0]);
+                if(count($closure) == 2)
+                {
+                    $object = app()->make($closure[0]);
+                    $closure = [$object, $closure[1]];
+
+                    return function($closure) use($closure)
+                    {
+                        $args = func_get_args();
+                        return call_user_func_array($closure, $args);
+                    };
+
+                }
+            }
+        }
+
+
+        if($forceExists)
+        {
+            return function($arg1)
+            {
+                return $arg1;
+            };
+        }
 
         return null;
     }
 
-
-    public function getValue($key, $owner = null, $default = null)
+    /** Return the node as value */
+    public function getValue($key = null, $owner = null, $default = null)
     {
-        $key = $this->translateKey($key);
+        if(!$this->exists($key))
+        {
+            return $default;
+        }
 
-        $value = config($key, $default);
+        $value = config($this->translateKey($key));
 
-        if($value instanceof \Closure)
-            return $value($owner);
+        // If its a closure, call it
+        if(is_callable($value) || is_array($value))
+        {
+            $closure = $this->getClosure($key);
+            if($closure != null)
+            {
+                return $closure($owner);
+            }
+
+            // Its not a value, so return default
+            return $default;
+        }
 
         return $value;
     }
 
-    public function getArray($key, $owner = null, $default = null)
+    /** Return the node as array */
+    public function getArray($key = null, $owner = null, $default = null)
     {
-        return $this->getValue($key, $owner, $default);
+        if(!$this->exists($key))
+        {
+            return $default;
+        }
+
+        $value = config($this->translateKey($key));
+
+        // If its a closure, call it
+        if(is_callable($value) || is_array($value))
+        {
+            $closure = $this->getClosure($key);
+            if($closure != null)
+            {
+                return $closure($owner);
+            }
+        }
+
+        // If its not an array, return default
+        if(!is_array($value))
+        {
+            return $default;
+        }
+
+        // Return the array
+        return $value;
     }
+
 
 }
