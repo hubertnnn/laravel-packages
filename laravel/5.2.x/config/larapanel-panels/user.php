@@ -44,8 +44,8 @@ return [
     'custom-actions' => [
         [
             "name" => "test",
-            "Label" => "Test Me",
-            "Icon" => "glyphicon glyphicon-star",
+            "label" => "Test Me",
+            "icon" => "glyphicon glyphicon-star",
             "tooltip" => "You should run a test now",
             "visible" => true,
             "allowed" => true,

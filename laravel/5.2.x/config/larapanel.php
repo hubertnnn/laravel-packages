@@ -12,4 +12,10 @@ return [
         'test',
     ],
 
+//    'panels' => function(){
+//        return ['admin'];
+//    },
+
+//    'panels' => ['\App\Test@routes'],
+
 ];
