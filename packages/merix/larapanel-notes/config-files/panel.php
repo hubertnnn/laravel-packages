@@ -49,8 +49,9 @@ return [
     'custom-actions' => [
         [
             "name" => "{action}",
-            "Label" => "Logout | translates",
-            "Icon" => "glyphicon glyphicon-off",
+            "label" => "Logout | translates",
+            "class" => "Class for action button",
+            "icon" => "glyphicon glyphicon-off",
             "tooltip" => "Text shown on hover",
             "visible" => 'true|false|function()',
             "allowed" => 'true|false|function()',
