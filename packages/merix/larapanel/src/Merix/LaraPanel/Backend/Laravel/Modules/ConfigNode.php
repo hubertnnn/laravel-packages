@@ -4,7 +4,7 @@ namespace Merix\LaraPanel\Backend\Laravel\Modules;
 
 use \Merix\LaraPanel\Core\Contracts\Modules\ConfigNode as BaseConfigNode;
 
-class ConfigNode implements BaseConfigNode
+class ConfigNode implements BaseConfigNode, \Iterator
 {
     /** @var Config */
     protected $config;
@@ -96,6 +96,45 @@ class ConfigNode implements BaseConfigNode
         }
     }
 
+    public function __toString()
+    {
+        $str = $this->getValue(null, null, '');
+        if(is_string($str))
+            return $str;
+        return '';
+    }
 
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Iterator
+    private $iteratorChildren = null;
+
+    public function current()
+    {
+        return $this->getNode($this->key(), false);
+    }
+
+    public function next()
+    {
+        next($this->iteratorChildren);
+    }
+
+    public function key()
+    {
+        return key($this->iteratorChildren);
+    }
+
+    public function valid()
+    {
+        $key = key($this->iteratorChildren);
+        return ($key !== NULL && $key !== FALSE);
+    }
+
+    public function rewind()
+    {
+        $this->iteratorChildren = $this->getArray(null, null, []);
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
 
 }
