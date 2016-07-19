@@ -78,7 +78,7 @@ class Config implements BaseConfig
                 return $closure;
             }
 
-            if(is_array($closure) && (count($closure) == 1) && is_string($closure[0]))
+            if(is_array($closure) && (count($closure) == 1) && isset($closure[0]) && is_string($closure[0]))
             {
                 $closure = explode('@', $closure[0]);
                 if(count($closure) == 2)
@@ -119,7 +119,7 @@ class Config implements BaseConfig
         $value = config($this->translateKey($key));
 
         // If its a closure, call it
-        if(is_callable($value) || is_array($value))
+        if((!is_string($value) && is_callable($value)) || is_array($value))
         {
             $closure = $this->getClosure($key);
             if($closure != null)
@@ -145,7 +145,7 @@ class Config implements BaseConfig
         $value = config($this->translateKey($key));
 
         // If its a closure, call it
-        if(is_callable($value) || is_array($value))
+        if((!is_string($value) && is_callable($value)) || is_array($value))
         {
             $closure = $this->getClosure($key);
             if($closure != null)
