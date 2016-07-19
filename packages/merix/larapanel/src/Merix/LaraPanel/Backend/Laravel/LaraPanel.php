@@ -2,6 +2,7 @@
 
 namespace Merix\LaraPanel\Backend\Laravel;
 
+use Merix\LaraPanel\Backend\Laravel\Modules\Admin;
 use Merix\LaraPanel\Backend\Laravel\Modules\Config;
 use Merix\LaraPanel\Backend\Laravel\Modules\Panel;
 use Merix\LaraPanel\Backend\Laravel\Modules\Utils;
@@ -28,12 +29,21 @@ class LaraPanel implements BaseLaraPanel
      */
     public function getAdmin()
     {
+        if($this->admin == null)
+        {
+            $panel = $this->getPanel();
+            if(in_array($this->getAdminName(), $panel->getAdminList()))
+            {
+                $this->admin = new Admin($this, $this->getAdminName());
+            }
+        }
+
         return $this->admin;
     }
 
     public function getAdminName()
     {
-        return $this->adminName();
+        return $this->adminName;
     }
 
     /**

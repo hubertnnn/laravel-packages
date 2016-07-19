@@ -12,5 +12,7 @@ Route::group(['namespace' => '\Merix\LaraPanel\Backend\Laravel\Http\Controllers'
     Route::get('/{panel}/__panel', 'PanelController@panel')->where('panel', $panels)->name('larapanel.panel');
     Route::get('/{panel}/__action/{action}', 'PanelController@action')->where('panel', $panels)->name('larapanel.action');
 
+    Route::get('/{panel}/{admin}/__admin', 'AdminController@admin')->where('panel', $panels)->name('larapanel.action');
+
 });
 
