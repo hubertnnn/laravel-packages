@@ -16,6 +16,10 @@ return [
             'Test 3' => 'test3',
             'Test 4' => 'test4',
         ],
+        'Menu 2' => [
+            'Test 5' => 'group',
+            'Test 4' => 'user',
+        ],
     ],
 
     'default-admin' => 'test1',
