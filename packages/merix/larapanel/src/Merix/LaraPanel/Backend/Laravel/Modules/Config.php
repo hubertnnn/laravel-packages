@@ -27,15 +27,20 @@ class Config implements BaseConfig
         }
 
         $parts = explode('.', $key, 2);
+        $rest = '';
+        if(count($parts) > 1)
+        {
+            $rest = '.' . $parts[1];
+        }
 
         switch($parts[0])
         {
             case 'global':
                 return 'larapanel.' . $parts[1];
             case 'panel':
-                return $this->panelDir . '.' . $this->laraPanel->getPanelName() . '.' . $parts[1];
+                return $this->panelDir . '.' . $this->laraPanel->getPanelName() . $rest;
             case 'admin':
-                return $this->adminDir . '.' . $this->laraPanel->getAdminName() . '.'  . $parts[1];
+                return $this->adminDir . '.' . $this->laraPanel->getAdminName() . $rest;
             default:
                 return $key; // If its not our just go on
         }
