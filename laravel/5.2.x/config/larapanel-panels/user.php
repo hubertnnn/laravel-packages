@@ -39,12 +39,42 @@ return [
         'logout' => true,
         'homepage' => true,
         'test' => true,
+        'test1' => false,
+        'test2' => null,
     ],
 
     'custom-actions' => [
         [
             "name" => "test",
             "label" => "Test Me",
+            "icon" => "glyphicon glyphicon-star",
+            "tooltip" => "You should run a test now",
+            "visible" => true,
+            "allowed" => true,
+            "handle"  => function($panel, $data, $action){
+                /** @var \Merix\LaraPanel\Core\Contracts\ActionManagement $action */
+                $action->message('success', 'test was successful');
+                $action->closeEdit();
+                $action->fillField('aaa', 'bbb');
+                $action->refresh();
+            },
+
+        ],
+        [
+            "name" => "test1",
+            "label" => "Test Me 1",
+            "icon" => "glyphicon glyphicon-star",
+            "tooltip" => "You should run a test now",
+            "visible" => true,
+            "allowed" => true,
+            "handle"  => function($panel, $data, $action){
+                $action->message('success', 'test was successful');
+            },
+
+        ],
+        [
+            "name" => "test2",
+            "label" => "Test Me 2",
             "icon" => "glyphicon glyphicon-star",
             "tooltip" => "You should run a test now",
             "visible" => true,
