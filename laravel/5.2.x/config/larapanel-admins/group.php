@@ -88,31 +88,61 @@ return [
 
 
     // Edit window
-    'fields' => [
-        [
-            'name' => 'name',
-            'field' => 'name',
-            'type' => 'text',
+    'edit' => [
 
-            'default' => '',
-            'label' => 'User Name',
-            'tooltip' => 'User Name',
-            'placeholder' => 'User Name',
+        'fields' => [
+            [
+                'name' => 'name',
+                'field' => 'name',
+                'type' => 'text',
 
-            'enabled' => true,
+                'default' => '',
+                'label' => 'User Name',
+                'tooltip' => 'User Name',
+                'placeholder' => 'User Name',
+
+                'enabled' => true,
+            ],
+            [
+                'name' => 'email',
+                'field' => 'email',
+                'type' => 'text',
+
+                'default' => '',
+                'label' => 'Email',
+                'tooltip' => 'Email',
+                'placeholder' => 'Email',
+
+                'enabled' => true,
+            ],
         ],
-        [
-            'name' => 'email',
-            'field' => 'email',
-            'type' => 'text',
 
-            'default' => '',
-            'label' => 'Email',
-            'tooltip' => 'Email',
-            'placeholder' => 'Email',
 
-            'enabled' => true,
+        'actions' => [
+            'save' => true,
         ],
+
+        'custom-actions' => [
+            [
+                "name" => "save",
+                "Label" => "Save something",
+                "Icon" => "glyphicon glyphicon-lock",
+                "tooltip" => "Saving me",
+                "visible" => true,
+                "allowed" => true,
+                "handle"  => function($admin, $data, $action){
+                    /** @var \Merix\LaraPanel\Core\Contracts\ActionManagement $action */
+                    $action->message('success', 'admin test was successful at saving me');
+                    $action->closeEdit();
+                    $action->fillField('aaasave', 'bbbsave');
+                    $action->refresh();
+                },
+
+            ],
+        ],
+
     ],
+
+
 
 ];

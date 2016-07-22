@@ -23,7 +23,11 @@ class Admin implements BaseAdmin
     protected $type;
     protected $view;
 
+    protected $entityClass;
+    protected $entityQuery;
+
     protected $actions;
+    protected $edit;
 
     /**
      * @param $laraPanel LaraPanel
@@ -44,7 +48,23 @@ class Admin implements BaseAdmin
     //------------------------------------------------------------------------------------------------------------------
     // Initialization
 
-    private function initPanel()
+    protected function initEntity()
+    {
+        $entityClass = $this->getConfig()->getValue('entity');
+        $entityQuery = $this->getConfig()->getClosure('query');
+
+        if($entityQuery == null)
+        {
+            $entityQuery = function() use($entityClass){
+                return call_user_func(array($entityClass, 'query'));
+            };
+        }
+
+        $this->entityClass = $entityClass;
+        $this->entityQuery = $entityQuery;
+    }
+
+    protected function initPanel()
     {
         // If its already initiated
         if($this->name != null)
@@ -60,6 +80,10 @@ class Admin implements BaseAdmin
         $this->actions = new ActionManager($this, $this->getConfig());
     }
 
+    protected function initEdit()
+    {
+        $this->edit = new Edit($this);
+    }
 
 
     //------------------------------------------------------------------------------------------------------------------
@@ -98,14 +122,41 @@ class Admin implements BaseAdmin
         return $this->actions;
     }
 
+    public function getEntityClass()
+    {
+        if($this->entityClass == null)
+        {
+            $this->initEntity();
+        }
 
+        return $this->entityClass;
+    }
 
+    public function getQuery()
+    {
+        if($this->entityQuery == null)
+        {
+            $this->initEntity();
+        }
 
+        $query = $this->entityQuery;
+        return $query($this);
+    }
 
     public function getEdit()
     {
-        // TODO: Implement getEdit() method.
+        if($this->edit == null)
+        {
+            $this->initEdit();
+        }
+
+        return $this->edit;
     }
+
+
+
+
+
 
     public function getFields()
     {

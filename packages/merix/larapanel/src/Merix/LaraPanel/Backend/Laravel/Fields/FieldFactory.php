@@ -2,8 +2,8 @@
 
 namespace Merix\LaraPanel\Backend\Laravel\Fields;
 
-use Merix\LaraPanel\Core\Contracts\FieldFactory as BaseFieldFactory;
-use Merix\LaraPanel\Core\Contracts\LaraPanel;
+use Merix\LaraPanel\Core\Contracts\Factories\FieldFactory as BaseFieldFactory;
+use Merix\LaraPanel\Core\Contracts\Modules\LaraPanel;
 
 class FieldFactory implements BaseFieldFactory
 {
@@ -35,16 +35,20 @@ class FieldFactory implements BaseFieldFactory
     {
         if(isset($this->fields[$type]))
         {
-            $type = $this->fields[$type]['class'];
+            $fieldClass = $this->fields[$type]['class'];
             $parameters = array_merge($this->fields[$type]['parameters'], $parameters);
         }
+        else
+        {
+            $fieldClass = $type;
+        }
 
-        if(!class_exists($type))
+        if(!class_exists($fieldClass))
         {
             return null;
         }
 
-        $instance = app()->make($type, ['parameters' => $parameters]);
+        $instance = app()->make($fieldClass, ['parameters' => $parameters]);
 
         return $instance;
     }

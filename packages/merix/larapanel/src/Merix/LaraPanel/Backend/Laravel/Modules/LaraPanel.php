@@ -2,6 +2,7 @@
 
 namespace Merix\LaraPanel\Backend\Laravel\Modules;
 
+use Merix\LaraPanel\Backend\Laravel\Fields\FieldFactory;
 use Merix\LaraPanel\Backend\Laravel\Managers\ConfigManager;
 use Merix\LaraPanel\Core\Contracts\Modules\Config;
 use Merix\LaraPanel\Core\Contracts\Modules\LaraPanel as BaseLaraPanel;
@@ -15,6 +16,8 @@ class LaraPanel implements BaseLaraPanel
     protected $panelName;
     protected $admin;
     protected $adminName;
+
+    protected $fieldFactory;
 
 
     public function __construct()
@@ -98,5 +101,14 @@ class LaraPanel implements BaseLaraPanel
         return $this;
     }
 
+    public function getFieldFactory()
+    {
+        if($this->fieldFactory == null)
+        {
+            $this->fieldFactory = new FieldFactory($this);
+        }
+
+        return $this->fieldFactory;
+    }
 
 }

@@ -74,32 +74,38 @@ return [
 
     // Edit window
 
-    'tabs' => [
-        'tab1-name' => [
-            'label' => 'tab1-label',
-            'class' => 'tab1-classes',
-        ],
-    ],
+    'edit' => [
 
-    'sections' =>[
-        'section1-name' => [
-            'label' => 'section1-label',
-            'class' => 'section1-classes',
-            'tab' => 'tab1-name',
-            'parent' => '',
+        'tabs' => [
+            'tab1-name' => [
+                'label' => 'tab1-label',
+                'class' => 'tab1-classes',
+            ],
         ],
-        'section2-name' => [
-            'label' => 'section2-label',
-            'class' => 'section2-classes',
-            'tab' => '',
-            'parent' => 'section1-name', //parent overrides tab
-        ],
-    ],
 
-    'fields' => [
-        [
-
+        'sections' =>[
+            'section1-name' => [
+                'label' => 'section1-label',
+                'class' => 'section1-classes',
+                'tab' => 'tab1-name',
+                'parent' => '',
+            ],
+            'section2-name' => [
+                'label' => 'section2-label',
+                'class' => 'section2-classes',
+                'tab' => '',
+                'parent' => 'section1-name', //parent overrides tab
+            ],
         ],
-    ],
+
+        'fields' => [
+            [
+
+            ],
+        ],
+
+        'actions' => [],
+        'custom-actions' => [],
+    ]
 
 ];

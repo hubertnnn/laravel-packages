@@ -1,6 +1,7 @@
 <?php
 
 namespace Merix\LaraPanel\Core\Contracts\Modules;
+use Merix\LaraPanel\Core\Contracts\Factories\FieldFactory;
 use Merix\LaraPanel\Core\Contracts\Interfaces\Module;
 use Merix\LaraPanel\Core\Contracts\Utils;
 
@@ -41,5 +42,9 @@ interface LaraPanel extends Module
 
     /** @return Utils */
     public function getUtils();
+
+
+    /** @return FieldFactory */
+    public function getFieldFactory();
 
 }

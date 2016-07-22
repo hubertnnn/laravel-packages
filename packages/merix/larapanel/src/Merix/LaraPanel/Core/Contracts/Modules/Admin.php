@@ -4,6 +4,7 @@ namespace Merix\LaraPanel\Core\Contracts\Modules;
 
 
 
+use Illuminate\Database\Query\Builder;
 use Merix\LaraPanel\Core\Contracts\Interfaces\Module;
 use Merix\LaraPanel\Core\Contracts\Managers\ActionManager;
 
@@ -20,7 +21,13 @@ interface Admin extends Module
 
 
     // Edit window
+    /** @return Edit */
     public function getEdit();
     public function getFields();
+
+    // Entity
+    public function getEntityClass();
+    /** @return Builder */
+    public function getQuery();
 
 }

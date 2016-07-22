@@ -62,3 +62,5 @@ Larapanel-Backend-Symfony
     - services
 
 
+
+TODO: Change all "new Object" to "app()->make()" allowing easy overriding of classes
