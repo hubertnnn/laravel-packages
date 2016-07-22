@@ -4,7 +4,11 @@ namespace Merix\LaraPanel\Core\Contracts\Modules;
 
 
 
-interface Panel
+use Merix\LaraPanel\Backend\Laravel\Managers\MenuManager;
+use Merix\LaraPanel\Core\Contracts\Interfaces\Module;
+use Merix\LaraPanel\Core\Contracts\Managers\ActionManager;
+
+interface Panel extends Module
 {
 
 
@@ -23,10 +27,12 @@ interface Panel
 
 
     public function getDefaultAdmin();
-    public function getAdminList();
-    public function getMenuStructure();
+    public function getAdmins();
 
+    /** @return MenuManager */
+    public function getMenu();
+
+    /** @return ActionManager */
     public function getActions();
-    public function getActionStructure();
 
 }

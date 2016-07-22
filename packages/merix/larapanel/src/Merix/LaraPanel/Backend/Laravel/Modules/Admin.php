@@ -3,15 +3,21 @@
 namespace Merix\LaraPanel\Backend\Laravel\Modules;
 
 use Illuminate\Support\Collection;
+use Merix\LaraPanel\Backend\Laravel\Managers\ActionManager;
 use Merix\LaraPanel\Core\Components\Action;
 use Merix\LaraPanel\Core\Components\Menu;
-use Merix\LaraPanel\Core\Contracts\LaraPanel;
 use Merix\LaraPanel\Core\Contracts\Modules\Admin as BaseAdmin;
+use Merix\LaraPanel\Core\Traits\LaraPanelAwareTrait;
+use Merix\LaraPanel\Core\Traits\OwnerAwareTrait;
+use Merix\LaraPanel\Core\Traits\PanelAwareTrait;
 
 class Admin implements BaseAdmin
 {
-    /** @var LaraPanel */
-    protected $laraPanel;
+    use OwnerAwareTrait;
+    use LaraPanelAwareTrait;
+    use PanelAwareTrait;
+
+    protected $config;
 
     protected $name;
     protected $type;
@@ -19,12 +25,24 @@ class Admin implements BaseAdmin
 
     protected $actions;
 
+    /**
+     * @param $laraPanel LaraPanel
+     * @param $panelName string
+     */
     public function __construct($laraPanel, $panelName)
     {
-        $this->laraPanel = $laraPanel;
         $this->panelName = $panelName;
+
+        $this->owner = $laraPanel;
+        $this->laraPanel = $laraPanel;
+        $this->panel = $laraPanel->getPanel();
+        $this->config = $laraPanel->getConfig()->getNode('panel');
     }
 
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Initialization
 
     private function initPanel()
     {
@@ -32,89 +50,25 @@ class Admin implements BaseAdmin
         if($this->name != null)
             return;
 
-        $config = $this->laraPanel->getConfig()->getNode('admin');
-
-        $this->name = $config->getValue('name');
-        $this->type = $config->getValue('type');
-        $this->view = $config->getValue('view');
-
+        $this->name = $this->getConfig()->getValue('name');
+        $this->type = $this->getConfig()->getValue('type');
+        $this->view = $this->getConfig()->getValue('view');
     }
 
-
-    private function parseActions($root)
+    protected function initActions()
     {
-        foreach($root as $data)
-        {
-            $name       = $data->getValue('name', $this);
-            $label      = $data->getValue('label', $this, '');
-            $class      = $data->getValue('class', $this, '');
-            $icon       = $data->getValue('icon', $this, null);
-            $tooltip    = $data->getValue('tooltip', $this, null);
-            $path       = $data->getValue('path', $this, null);
-            $redirect   = $data->getValue('redirect', $this, null);
-            $visible    = $data->getValue('visible', $this, true);
-            $allowed    = $data->getValue('allowed', $this, true);
-
-            $handler    = $data->getClosure('handle');
-
-            $action = new Action($this->laraPanel, $this, $name, $handler, $label, $class, $icon, $tooltip, $redirect, $path, $visible, $allowed);
-
-            $this->actions[$name] = $action;
-        }
+        $this->actions = new ActionManager($this, $this->getConfig());
     }
 
-    private function parseActionPermissions($root)
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Getters
+
+    public function getConfig()
     {
-        foreach($root as $name => $data)
-        {
-            if(!isset($this->actions[$name]) || $this->actions[$name] == null)
-            {
-                // There is no such action
-                continue;
-            }
-
-            $value = $data->getValue();
-
-            // NULL = Not visible
-            if($value === null)
-            {
-                $this->actions[$name]->visible = false;
-                $this->actions[$name]->allowed = false;
-            }
-
-            // FALSE = Not allowed
-            if($value === false)
-            {
-                $this->actions[$name]->visible = true;
-                $this->actions[$name]->allowed = false;
-            }
-
-            // TRUE = Allowed
-            if($value === true)
-            {
-                $this->actions[$name]->visible = true;
-                $this->actions[$name]->allowed = true;
-            }
-        }
+        return $this->getLaraPanel()->getConfig()->getNode('admin');
     }
-
-    private function initActions()
-    {
-        // If its already initiated
-        if($this->actions != null)
-            return;
-
-        $this->actions = [];
-
-        $actionsConfig = $this->laraPanel->getConfig()->getNode('admin.custom-actions');
-        $permissionsConfig = $this->laraPanel->getConfig()->getNode('admin.actions');
-
-        $this->parseActions($actionsConfig);
-        $this->parseActionPermissions($permissionsConfig);
-    }
-
-
-
 
     public function getType()
     {
@@ -136,25 +90,26 @@ class Admin implements BaseAdmin
 
     public function getActions()
     {
-        $this->initActions();
+        if($this->actions == null)
+        {
+            $this->initActions();
+        }
 
         return $this->actions;
     }
 
-    public function getActionStructure()
+
+
+
+
+    public function getEdit()
     {
-        $this->initActions();
+        // TODO: Implement getEdit() method.
+    }
 
-        $arr = [];
-        foreach($this->actions as $item)
-        {
-            if($item->visible)
-            {
-                $arr[] = $item->toArray();
-            }
-        }
-
-        return $arr;
+    public function getFields()
+    {
+        // TODO: Implement getFields() method.
     }
 
 

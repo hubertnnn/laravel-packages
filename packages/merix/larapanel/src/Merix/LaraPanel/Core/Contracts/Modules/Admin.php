@@ -4,7 +4,10 @@ namespace Merix\LaraPanel\Core\Contracts\Modules;
 
 
 
-interface Admin
+use Merix\LaraPanel\Core\Contracts\Interfaces\Module;
+use Merix\LaraPanel\Core\Contracts\Managers\ActionManager;
+
+interface Admin extends Module
 {
 
     public function getType();
@@ -12,7 +15,12 @@ interface Admin
     public function getName();
     public function getView();
 
+    /** @return ActionManager */
     public function getActions();
-    public function getActionStructure();
+
+
+    // Edit window
+    public function getEdit();
+    public function getFields();
 
 }

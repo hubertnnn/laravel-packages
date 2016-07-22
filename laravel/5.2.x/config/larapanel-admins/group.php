@@ -26,7 +26,7 @@ return [
             "allowed" => true,
             "handle"  => function($admin, $data, $action){
                 /** @var \Merix\LaraPanel\Core\Contracts\ActionManagement $action */
-                $action->message('success', 'test was successful');
+                $action->message('success', 'admin test was successful');
                 $action->closeEdit();
                 $action->fillField('aaa', 'bbb');
                 $action->refresh();

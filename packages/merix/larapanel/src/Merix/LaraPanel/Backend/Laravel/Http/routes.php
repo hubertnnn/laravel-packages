@@ -2,7 +2,7 @@
 
 Route::group(['namespace' => '\Merix\LaraPanel\Backend\Laravel\Http\Controllers'], function()
 {
-    $larapanel = \App::make('Merix\LaraPanel\Core\Contracts\LaraPanel');
+    $larapanel = \App::make('Merix\LaraPanel\Core\Contracts\Modules\LaraPanel');
 
     $panels = $larapanel->getConfig()->getArray('larapanel.panels');
     $panels = '^(' . implode('|', $panels) . ')$';
@@ -14,6 +14,7 @@ Route::group(['namespace' => '\Merix\LaraPanel\Backend\Laravel\Http\Controllers'
 
     Route::get('/{panel}/{admin}/__admin', 'AdminController@admin')->where('panel', $panels)->name('larapanel.admin');
     Route::get('/{panel}/{admin}/__action/{action}', 'AdminController@action')->where('panel', $panels)->name('larapanel.admin.action');
+    Route::get('/{panel}/{admin}/__edit', 'AdminController@edit')->where('panel', $panels)->name('larapanel.admin.edit');
 
 });
 

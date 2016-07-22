@@ -5,7 +5,7 @@ namespace Merix\LaraPanel\Backend\Laravel\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Merix\LaraPanel\Core\Components\Action;
-use Merix\LaraPanel\Core\Contracts\LaraPanel;
+use Merix\LaraPanel\Core\Contracts\Modules\LaraPanel;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PanelController extends Controller
@@ -31,8 +31,8 @@ class PanelController extends Controller
             'icon'      => $panel->getIconUrl(),
             'favicon'   => $panel->getFaviconUrl(),
             'default'   => $panel->getDefaultAdmin(),
-            'menu'      => $panel->getMenuStructure(),
-            'actions'   => $panel->getActionStructure(),
+            'menu'      => $panel->getMenu()->getStructure(),
+            'actions'   => $panel->getActions()->getStructure(),
         ];
 
         return $response;
@@ -44,31 +44,21 @@ class PanelController extends Controller
         $panel = $laraPanel->getPanel();
 
 
-        $actions = $panel->getActions();
-        if(!isset($actions[$action]))
+        $action = $panel->getActions()->get($action);
+
+        if(($action == null) || (!$action->getVisible()))
         {
             throw new NotFoundHttpException();
         }
 
-        /** @var Action $action */
-        $action = $panel->getActions()[$action];
-        if(!$action->visible)
-        {
-            throw new NotFoundHttpException();
-        }
-
-        if(!$action->allowed)
+        if(!$action->getAllowed())
         {
             \App::abort(403, 'Unauthorized action.');
         }
 
         $data = $request->input('data', []);
 
-        $handler = $action->handler;
-        if($handler != null)
-        {
-            $handler($panel, $data, $action);
-        }
+        $action->call($data);
 
         return $action->getResponse();
     }

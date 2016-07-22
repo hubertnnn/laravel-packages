@@ -1,9 +1,8 @@
 <?php
 
-namespace Merix\LaraPanel\Core\Contracts;
-use Merix\LaraPanel\Core\Contracts\Modules\Config;
-use Merix\LaraPanel\Core\Contracts\Modules\Panel;
-use Merix\LaraPanel\Core\Contracts\Modules\Admin;
+namespace Merix\LaraPanel\Core\Contracts\Modules;
+use Merix\LaraPanel\Core\Contracts\Interfaces\Module;
+use Merix\LaraPanel\Core\Contracts\Utils;
 
 
 /**
@@ -11,7 +10,7 @@ use Merix\LaraPanel\Core\Contracts\Modules\Admin;
  *
  * @package Merix\LaraPanel\Core\Contracts
  */
-interface LaraPanel
+interface LaraPanel extends Module
 {
 
     /**

@@ -1,0 +1,25 @@
+core:
+    contracts:
+        modules:
+            larapanel.php
+
+            panel.php
+            admin.php
+                - getPanel
+            edit.php
+                - getPanel
+                - getAdmin
+            field.php
+                - getPanel
+                - getAdmin
+                - getEdit
+
+            action.php
+                - getPanel  : panel
+                - getAdmin  : panel | null
+                - getEdit   : edit  | null
+
+        managers:
+            ConfigManager
+            ActionManager
+

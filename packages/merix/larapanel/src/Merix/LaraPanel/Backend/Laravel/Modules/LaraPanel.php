@@ -1,12 +1,10 @@
 <?php
 
-namespace Merix\LaraPanel\Backend\Laravel;
+namespace Merix\LaraPanel\Backend\Laravel\Modules;
 
-use Merix\LaraPanel\Backend\Laravel\Modules\Admin;
-use Merix\LaraPanel\Backend\Laravel\Modules\Config;
-use Merix\LaraPanel\Backend\Laravel\Modules\Panel;
-use Merix\LaraPanel\Backend\Laravel\Modules\Utils;
-use Merix\LaraPanel\Core\Contracts\LaraPanel as BaseLaraPanel;
+use Merix\LaraPanel\Backend\Laravel\Managers\ConfigManager;
+use Merix\LaraPanel\Core\Contracts\Modules\Config;
+use Merix\LaraPanel\Core\Contracts\Modules\LaraPanel as BaseLaraPanel;
 
 class LaraPanel implements BaseLaraPanel
 {
@@ -32,7 +30,7 @@ class LaraPanel implements BaseLaraPanel
         if($this->admin == null)
         {
             $panel = $this->getPanel();
-            if(in_array($this->getAdminName(), $panel->getAdminList()))
+            if(in_array($this->getAdminName(), $panel->getAdmins()))
             {
                 $this->admin = new Admin($this, $this->getAdminName());
             }
@@ -72,7 +70,7 @@ class LaraPanel implements BaseLaraPanel
     {
         if($this->config == null)
         {
-            $this->config = new Config($this);
+            $this->config = new ConfigManager($this);
         }
         return $this->config;
     }
@@ -93,6 +91,11 @@ class LaraPanel implements BaseLaraPanel
     {
         $this->panelName = $panel;
         $this->adminName = $admin;
+    }
+
+    public function getLaraPanel()
+    {
+        return $this;
     }
 
 

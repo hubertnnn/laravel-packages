@@ -4,7 +4,7 @@ namespace Merix\LaraPanel\Backend\Laravel\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Merix\LaraPanel\Core\Contracts\LaraPanel;
+use Merix\LaraPanel\Core\Contracts\Modules\LaraPanel;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AdminController extends Controller
@@ -25,7 +25,7 @@ class AdminController extends Controller
             'type'      => $admin->getType(),
             'name'      => $admin->getName(),
             'view'      => $admin->getView(),
-            'actions'   => $admin->getActionStructure(),
+            'actions'   => $admin->getActions()->getStructure(),
         ];
 
         return $response;
@@ -38,39 +38,49 @@ class AdminController extends Controller
         $panel = $laraPanel->getPanel();
         $admin = $laraPanel->getAdmin();
 
-        if($admin == null)
+        $action = $admin->getActions()->get($action);
+
+        if(($action == null) || (!$action->getVisible()))
         {
             throw new NotFoundHttpException();
         }
 
-
-        $actions = $admin->getActions();
-        if(!isset($actions[$action]))
-        {
-            throw new NotFoundHttpException();
-        }
-
-        /** @var Action $action */
-        $action = $admin->getActions()[$action];
-        if(!$action->visible)
-        {
-            throw new NotFoundHttpException();
-        }
-
-        if(!$action->allowed)
+        if(!$action->getAllowed())
         {
             \App::abort(403, 'Unauthorized action.');
         }
 
         $data = $request->input('data', []);
 
-        $handler = $action->handler;
-        if($handler != null)
-        {
-            $handler($admin, $data, $action);
-        }
+        $action->call($data);
 
         return $action->getResponse();
+    }
+
+
+    public function edit(Request $request, LaraPanel $laraPanel, $panel, $admin)
+    {
+        $laraPanel->select($panel, $admin);
+        $panel = $laraPanel->getPanel();
+        $admin = $laraPanel->getAdmin();
+
+        if($admin == null)
+        {
+            throw new NotFoundHttpException();
+        }
+
+        $edit  = $admin->getEdit();
+
+        $response = [
+            'width'     => $edit->getWidth(),
+            'tabs'      => $edit->getTabs(),
+            'sections'  => $edit->getSections(),
+            'fields'    => $edit->getFields(),
+            'actions'   => $edit->getActions()->getStructure(),
+        ];
+
+        return $response;
+
     }
 
 }

@@ -2,167 +2,139 @@
 
 namespace Merix\LaraPanel\Backend\Laravel\Modules;
 
-use Merix\LaraPanel\Core\Contracts\Modules\Config as BaseConfig;
+use \Merix\LaraPanel\Core\Contracts\Modules\Config as BaseConfig;
 
-class Config implements BaseConfig
+class Config implements BaseConfig, \Iterator
 {
-    protected $laraPanel;
+    /** @var Config */
+    protected $config;
 
-    private $panelDir = null;
-    private $adminDir = null;
+    /** @var  string */
+    protected $path;
 
-
-    public function __construct($laraPanel)
+    public function __construct($config, $path)
     {
-        $this->laraPanel = $laraPanel;
+        $this->config = $config;
+        $this->path = $path;
     }
 
 
-    private function translateKey($key)
-    {
-        if($this->panelDir == null)
-        {
-            $this->panelDir = config('larapanel.panel-dir');
-            $this->adminDir = config('larapanel.admin-dir');
-        }
-
-        $parts = explode('.', $key, 2);
-        $rest = '';
-        if(count($parts) > 1)
-        {
-            $rest = '.' . $parts[1];
-        }
-
-        switch($parts[0])
-        {
-            case 'global':
-                return 'larapanel.' . $parts[1];
-            case 'panel':
-                return $this->panelDir . '.' . $this->laraPanel->getPanelName() . $rest;
-            case 'admin':
-                return $this->adminDir . '.' . $this->laraPanel->getAdminName() . $rest;
-            default:
-                return $key; // If its not our just go on
-        }
-
-    }
-
-    /** Check if node exists */
     public function exists($key = null)
     {
-        $key = $this->translateKey($key);
-        return app('config')->has($key);
+        if($key == '' || $key == null)
+        {
+            // We are in curent node, get result
+            return $this->config->exists($this->path);
+        }
+        else
+        {
+            // We need to get the node
+            return $this->getNode($key, false)->exists('');
+        }
     }
 
-    /** Check return the subnode */
     public function getNode($key = null, $nullIfEmpty = true)
     {
-        if($nullIfEmpty && !$this->exists($key))
+        if($nullIfEmpty)
         {
-            return null;
+            if($this->exists($key))
+            {
+                return $this->getNode($key, false);
+            }
+            else
+            {
+                return null;
+            }
+
         }
-        return new ConfigNode($this, $key);
+        else
+        {
+            return new Config($this->config, $this->path . '.' . $key);
+        }
     }
 
 
-    /** Return the node as closure */
     public function getClosure($key = null, $forceExists = false)
     {
-        if($this->exists($key))
+        if($key == '' || $key == null)
         {
-            $key = $this->translateKey($key);
-            $closure = config($key);
-
-            if(is_callable($closure))
-            {
-                return $closure;
-            }
-
-            if(is_array($closure) && (count($closure) == 1) && isset($closure[0]) && is_string($closure[0]))
-            {
-                $closure = explode('@', $closure[0]);
-                if(count($closure) == 2)
-                {
-                    $object = app()->make($closure[0]);
-                    $closure = [$object, $closure[1]];
-
-                    return function($closure) use($closure)
-                    {
-                        $args = func_get_args();
-                        return call_user_func_array($closure, $args);
-                    };
-
-                }
-            }
+            // We are in curent node, get result
+            return $this->config->getClosure($this->path, $forceExists);
         }
-
-
-        if($forceExists)
+        else
         {
-            return function($arg1)
-            {
-                return $arg1;
-            };
+            // We need to get the node
+            return $this->getNode($key, false)->getClosure('', $forceExists = false);
         }
-
-        return null;
     }
 
-    /** Return the node as value */
     public function getValue($key = null, $owner = null, $default = null)
     {
-        if(!$this->exists($key))
+        if($key == '' || $key == null)
         {
-            return $default;
+            // We are in curent node, get result
+            return $this->config->getValue($this->path, $owner, $default);
         }
-
-        $value = config($this->translateKey($key));
-
-        // If its a closure, call it
-        if((!is_string($value) && is_callable($value)) || is_array($value))
+        else
         {
-            $closure = $this->getClosure($key);
-            if($closure != null)
-            {
-                return $closure($owner);
-            }
-
-            // Its not a value, so return default
-            return $default;
+            // We need to get the node
+            return $this->getNode($key, false)->getValue('', $owner, $default);
         }
-
-        return $value;
     }
 
-    /** Return the node as array */
     public function getArray($key = null, $owner = null, $default = null)
     {
-        if(!$this->exists($key))
+        if($key == '' || $key == null)
         {
-            return $default;
+            // We are in curent node, get result
+            return $this->config->getArray($this->path, $owner, $default);
         }
-
-        $value = config($this->translateKey($key));
-
-        // If its a closure, call it
-        if((!is_string($value) && is_callable($value)) || is_array($value))
+        else
         {
-            $closure = $this->getClosure($key);
-            if($closure != null)
-            {
-                return $closure($owner);
-            }
+            // We need to get the node
+            return $this->getNode($key, false)->getArray('', $owner, $default);
         }
-
-        // If its not an array, return default
-        if(!is_array($value))
-        {
-            return $default;
-        }
-
-        // Return the array
-        return $value;
     }
 
+    public function __toString()
+    {
+        $str = $this->getValue(null, null, '');
+        if(is_string($str))
+            return $str;
+        return '';
+    }
+
+
+    //------------------------------------------------------------------------------------------------------------------
+    // Iterator
+    private $iteratorChildren = null;
+
+    public function current()
+    {
+        return $this->getNode($this->key(), false);
+    }
+
+    public function next()
+    {
+        next($this->iteratorChildren);
+    }
+
+    public function key()
+    {
+        return key($this->iteratorChildren);
+    }
+
+    public function valid()
+    {
+        $key = key($this->iteratorChildren);
+        return ($key !== NULL && $key !== FALSE);
+    }
+
+    public function rewind()
+    {
+        $this->iteratorChildren = $this->getArray(null, null, []);
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
 
 }
