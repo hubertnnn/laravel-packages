@@ -102,6 +102,9 @@ return [
                 'placeholder' => 'User Name',
 
                 'enabled' => true,
+                'readonly' => false,
+
+                'validator' => 'required|string',
             ],
             [
                 'name' => 'email',
@@ -114,6 +117,8 @@ return [
                 'placeholder' => 'Email',
 
                 'enabled' => true,
+
+                'validator' => 'required|email|unique:users',
             ],
         ],
 
@@ -136,6 +141,22 @@ return [
                     $action->closeEdit();
                     $action->fillField('aaasave', 'bbbsave');
                     $action->refresh();
+                },
+
+            ],
+            [
+                "name" => "test",
+                "Label" => "test me",
+                "Icon" => "glyphicon glyphicon-lock",
+                "tooltip" => "Saving me",
+                "visible" => true,
+                "allowed" => function($admin){
+                    /** @var \Merix\LaraPanel\Core\Contracts\Modules\Admin $admin */
+                    if($admin->getEdit()->getObject() == null)
+                        return false;
+                    return ($admin->getEdit()->getObject()->name == 'aaa');
+                },
+                "handle"  => function($admin, $data, $action){
                 },
 
             ],
