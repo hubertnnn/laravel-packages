@@ -29,4 +29,5 @@ interface Edit extends Module
     public function getObject();
 
     public function getData();
+    public function storeData($data);
 }

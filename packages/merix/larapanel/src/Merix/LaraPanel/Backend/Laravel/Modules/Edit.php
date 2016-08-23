@@ -2,6 +2,7 @@
 
 namespace Merix\LaraPanel\Backend\Laravel\Modules;
 
+use Illuminate\Database\Eloquent\Model;
 use Merix\LaraPanel\Backend\Laravel\Managers\ActionManager;
 use Merix\LaraPanel\Core\Contracts\Modules\Edit as BaseEdit;
 use Merix\LaraPanel\Core\Traits\AdminAwareTrait;
@@ -17,6 +18,7 @@ class Edit implements BaseEdit
     use AdminAwareTrait;
 
     protected $object;
+    protected $selectedId;
 
     protected $actions;
 
@@ -123,6 +125,8 @@ class Edit implements BaseEdit
 
     protected function initFields()
     {
+        $fieldNum = 0;
+
         $factory = $this->getLaraPanel()->getFieldFactory();
 
         $fieldsConfig = $this->getConfig()->getNode('fields');
@@ -130,11 +134,12 @@ class Edit implements BaseEdit
         {
             foreach($fieldsConfig as $fieldConfig)
             {
-                $type = $fieldConfig->getValue('type');
+                $name = $fieldConfig->getValue('name', $this->getAdmin(), 'field_'.($fieldNum++));
+                $type = $fieldConfig->getValue('type', $this->getAdmin());
                 $field = $factory->createField($this, $type, $fieldConfig);
                 if($field !== null)
                 {
-                    $this->fields[] = $field;
+                    $this->fields[$name] = $field;
                 }
             }
         }
@@ -147,6 +152,8 @@ class Edit implements BaseEdit
 
     public function select($id)
     {
+        $this->selectedId = $id;
+
         if($id == 0)
         {
             // Create new Object
@@ -208,6 +215,7 @@ class Edit implements BaseEdit
         return $this->actions;
     }
 
+    /** @return Model */
     public function getObject()
     {
         return $this->object;
@@ -226,6 +234,142 @@ class Edit implements BaseEdit
         return $fieldData;
     }
 
+    public function storeData($data)
+    {
+        // Check if data have correct format
+        $values = $this->decodeFields($data);
+        if($values == null)
+        {
+            return [
+                'id' => -1, //TODO: Get current id
+                'success' => false,
+                'errors' => ['Incorrect format of input data'],
+            ];
+        }
 
+
+        // Check if data is valid
+        $rules = [];
+        foreach($this->getFields() as $field)
+        {
+            $validator = $field->getValidator();
+
+            if($validator !== null && $validator !=='')
+            {
+                $validator = $this->fixUniqueValidator($validator, $field->getField());
+                $rules[$field->getName()] = $validator;
+            }
+        }
+
+        //TODO: Add translation fields in config
+        $validator = validator($values, $rules);
+        if($validator->fails())
+        {
+            return [
+                'id' => -1, //TODO: Get current id
+                'success' => false,
+                'errors' => $validator->getMessageBag()->all(),
+            ];
+        }
+
+
+
+        try
+        {
+            // Everything is fine, update the object
+            $fields = $this->getFields();
+            foreach($values as $fieldName => $value)
+            {
+                $fields[$fieldName]->write($value);
+            }
+
+            $this->getObject()->save();
+        }
+        catch(\Exception $ex)
+        {
+            $this->getLaraPanel()->log($ex->getMessage(), 'ERROR');
+
+            return [
+                'id' => -1, //TODO: Get current id
+                'success' => false,
+                'errors' => [$ex->getMessage()],
+            ];
+        }
+
+
+        return [
+            'id' => $this->getObject()->id,
+            'success' => true,
+        ];
+    }
+
+
+
+    protected function decodeFields($data)
+    {
+        if(!is_array($data))
+            return null;
+
+        if(!isset($data['fields']) || !is_array($data['fields']))
+            return null;
+
+        $fields = $this->getFields();
+
+        $decoded = [];
+        foreach($data['fields'] as $field)
+        {
+            if(!isset($field['name']))
+            {
+                $this->getLaraPanel()->log('incorrect format, unknown field name', 'ERROR');
+                return null;
+            }
+
+            $name = $field['name'];
+
+            if(!isset($fields[$name]))
+            {
+                $this->getLaraPanel()->log('field does not exist: ' . $name, 'ERROR');
+                return false;
+            }
+
+
+            if($fields[$name]->getReadOnly())
+            {
+                $this->getLaraPanel()->log('you do not have permission for editing: ' . $name, 'ERROR');
+                return false;
+            }
+
+            $decoded[$name] = $fields[$name]->deserialize($field);
+        }
+
+        return $decoded;
+    }
+
+    protected function fixUniqueValidator($validator, $fieldName)
+    {
+        // Will add current id as exception in unique rule
+
+        $rules = explode('|', $validator);
+
+        foreach($rules as $pos => $rule)
+        {
+            if(strpos($rule, 'unique:') === 0)
+            {
+                // Fix this rule
+                $segments = explode(',', substr($rule, 7));
+
+                if(!isset($segments[1]))
+                {
+                    $segments[1] = $fieldName;
+                }
+
+                $segments[2] = $this->selectedId;
+
+                $rules[$pos] = 'unique:' . implode(',', $segments);
+            }
+        }
+
+        return implode('|', $rules);
+    }
 
 }

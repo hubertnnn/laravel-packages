@@ -75,7 +75,7 @@ class AdminController extends Controller
             'width'     => $edit->getWidth(),
             'tabs'      => $edit->getTabs(),
             'sections'  => $edit->getSections(),
-            'fields'    => array_map(function($field){return $field->getStructure();}, $edit->getFields()),
+            'fields'    => array_values(array_map(function($field){return $field->getStructure();}, $edit->getFields())),
             'actions'   => $edit->getActions()->getStructure(),
         ];
 
@@ -108,6 +108,27 @@ class AdminController extends Controller
         ];
 
         return $response;
+    }
+
+
+    public function store(Request $request, LaraPanel $laraPanel, $panel, $admin, $id)
+    {
+        $laraPanel->select($panel, $admin);
+        $panel = $laraPanel->getPanel();
+        $admin = $laraPanel->getAdmin();
+
+        if($admin == null)
+        {
+            throw new NotFoundHttpException();
+        }
+
+        $admin->getEdit()->select($id);
+
+
+        $response = $admin->getEdit()->storeData($request->input());
+
+        return $response;
+
     }
 
 }
