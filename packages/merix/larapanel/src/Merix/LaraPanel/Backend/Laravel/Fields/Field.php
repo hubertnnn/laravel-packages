@@ -2,78 +2,189 @@
 
 namespace Merix\LaraPanel\Backend\Laravel\Fields;
 
+use Merix\LaraPanel\Backend\Laravel\Modules\Edit;
 use Merix\LaraPanel\Core\Contracts\Components\Field as BaseField;
+use Merix\LaraPanel\Core\Contracts\Modules\Config;
 use Merix\LaraPanel\Core\Contracts\Modules\LaraPanel;
+use Merix\LaraPanel\Core\Traits\AdminAwareTrait;
+use Merix\LaraPanel\Core\Traits\EditAwareTrait;
 use Merix\LaraPanel\Core\Traits\LaraPanelAwareTrait;
+use Merix\LaraPanel\Core\Traits\OwnerAwareTrait;
+use Merix\LaraPanel\Core\Traits\PanelAwareTrait;
 
-class Field implements BaseField
+abstract class Field implements BaseField
 {
+    use OwnerAwareTrait;
     use LaraPanelAwareTrait;
+    use PanelAwareTrait;
+    use AdminAwareTrait;
+    use EditAwareTrait;
 
+    protected $config;
+    protected $parameters;
+
+    protected $name;
+    protected $field;
+    protected $label;
+    protected $tab;
+    protected $section;
+    protected $readOnly;
+    protected $depends;
+
+
+    /**
+     * @param $owner Edit
+     * @param $config Config
+     * @param $parameters
+     */
+    public function __construct($owner, $config, $parameters)
+    {
+        $this->owner = $owner;
+        $this->edit = $owner;
+        $this->admin = $owner->getAdmin();
+        $this->panel = $owner->getPanel();
+        $this->laraPanel = $owner->getLaraPanel();
+
+        $this->config = $config;
+        $this->parameters = array_merge($this->getDefaultParameters(), $parameters);
+
+        $this->init();
+    }
+
+    protected function init()
+    {
+        $this->name = $this->getConfigValue('name');
+        $this->field = $this->getConfigValue('field', $this->name);
+        $this->label = $this->getConfigValue('label');
+        $this->tab = $this->getConfigValue('tab');
+        $this->section = $this->getConfigValue('section');
+        $this->readOnly = $this->getConfigValue('readonly');
+        $this->depends = $this->getConfigValue('depends');
+    }
+
+    protected function getDefaultParameters()
+    {
+        return [
+            'tab' => 'default',
+            'section' => 'default',
+        ];
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Config handling
 
     public function getConfig()
     {
-        // TODO: Implement getConfig() method.
+        return $this->config;
     }
 
-    public function getAdmin()
+    protected function getConfigValue($key, $default = null)
     {
-        // TODO: Implement getAdmin() method.
+        $default = isset($this->parameters[$key]) ? $this->parameters[$key] : $default;
+        $value = $this->getConfig()->getValue($key, $this, $default);
+        return $value;
     }
 
-    public function getType()
-    {
-        // TODO: Implement getType() method.
-    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Getters for simple fields
+
+    // Must be implemented by instance
+    public abstract function getType();
 
     public function getName()
     {
-        // TODO: Implement getName() method.
+        return $this->name;
+    }
+
+    public function getField()
+    {
+        return $this->field;
     }
 
     public function getLabel()
     {
-        // TODO: Implement getLabel() method.
+        return $this->label;
     }
 
     public function getTab()
     {
-        // TODO: Implement getTab() method.
+        return $this->tab;
     }
 
     public function getSection()
     {
-        // TODO: Implement getSection() method.
+        return $this->section;
     }
 
     public function getReadOnly()
     {
-        // TODO: Implement getReadOnly() method.
+        return $this->readOnly;
     }
 
     public function getDepends()
     {
-        // TODO: Implement getDepends() method.
+        return $this->depends;
     }
+
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Getters more advanced values
 
     public function getStructure()
     {
-        // TODO: Implement getStructure() method.
+        return [
+            'name' => $this->getName(),
+//            'field' => $this->getField(), // This is only used by backend
+            'label' => $this->getLabel(),
+
+            'tab' => $this->getTab(),
+            'section' => $this->getSection(),
+
+            'type' => $this->getType(),
+        ];
     }
+
+    public function getObject()
+    {
+        return $this->getEdit()->getObject();
+    }
+
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Field logic
 
     public function read()
     {
-        // TODO: Implement read() method.
+        $function = $this->getConfig()->getClosure('read');
+        if($function !== null)
+            return $function($this);
+
+        return $this->doRead($this);
     }
 
     public function write($value)
     {
-        // TODO: Implement write() method.
+        $function = $this->getConfig()->getClosure('write');
+        if($function !== null)
+            return $function($this);
+
+        return $this->doWrite($this, $value);
     }
 
     public function search($data)
     {
-        // TODO: Implement search() method.
+        $function = $this->getConfig()->getClosure('search');
+        if($function !== null)
+            return $function($this);
+
+        return $this->doSearch($this, $data);
     }
+
+    protected abstract function doRead($field);
+
+    protected abstract function doWrite($field, $value);
+
+    protected abstract function doSearch($field, $data);
 
 }

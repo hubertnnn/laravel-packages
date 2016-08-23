@@ -19,7 +19,6 @@ interface Edit extends Module
 
     /** @return ActionManager */
     public function getActions();
-    public function getActionStructure();
 
     public function select($id);
 }

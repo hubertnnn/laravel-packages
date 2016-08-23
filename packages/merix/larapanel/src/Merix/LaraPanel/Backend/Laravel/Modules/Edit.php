@@ -131,7 +131,11 @@ class Edit implements BaseEdit
             foreach($fieldsConfig as $fieldConfig)
             {
                 $type = $fieldConfig->getValue('type');
-                $this->fields[] = $factory->createField($type, $fieldConfig);
+                $field = $factory->createField($this, $type, $fieldConfig);
+                if($field !== null)
+                {
+                    $this->fields[] = $field;
+                }
             }
         }
     }
@@ -145,7 +149,6 @@ class Edit implements BaseEdit
     {
         if($id == 0)
         {
-            dump($this->getAdmin()->getEntityClass());
             // Create new Object
             $this->object = app()->make($this->getAdmin()->getEntityClass());
         }
@@ -203,11 +206,6 @@ class Edit implements BaseEdit
         }
 
         return $this->actions;
-    }
-
-    public function getActionStructure()
-    {
-        // TODO: Implement getActionStructure() method.
     }
 
     public function getObject()

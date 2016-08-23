@@ -31,7 +31,7 @@ class FieldFactory implements BaseFieldFactory
         ];
     }
 
-    public function createField($type, $data, $parameters = [])
+    public function createField($owner, $type, $config, $parameters = [])
     {
         if(isset($this->fields[$type]))
         {
@@ -48,7 +48,7 @@ class FieldFactory implements BaseFieldFactory
             return null;
         }
 
-        $instance = app()->make($fieldClass, ['parameters' => $parameters]);
+        $instance = app()->make($fieldClass, ['owner' => $owner, 'config' => $config, 'parameters' => $parameters]);
 
         return $instance;
     }

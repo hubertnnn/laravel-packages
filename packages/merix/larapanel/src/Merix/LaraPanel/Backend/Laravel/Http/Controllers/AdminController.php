@@ -75,7 +75,7 @@ class AdminController extends Controller
             'width'     => $edit->getWidth(),
             'tabs'      => $edit->getTabs(),
             'sections'  => $edit->getSections(),
-            'fields'    => $edit->getFields(),
+            'fields'    => array_map(function($field){return $field->getStructure();}, $edit->getFields()),
             'actions'   => $edit->getActions()->getStructure(),
         ];
 

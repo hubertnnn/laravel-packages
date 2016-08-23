@@ -9,7 +9,7 @@ interface FieldFactory
 
     public function registerField($type, $class, $defaultParameters = []);
 
-    public function createField($type, $data, $parameters = []);
+    public function createField($owner, $type, $config, $parameters = []);
 
 }
 
