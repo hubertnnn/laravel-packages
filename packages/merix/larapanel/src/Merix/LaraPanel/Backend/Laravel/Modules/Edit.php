@@ -214,5 +214,18 @@ class Edit implements BaseEdit
     }
 
 
+    public function getData()
+    {
+        $fieldData = [];
+
+        foreach($this->getFields() as $field)
+        {
+            $fieldData[] = $field->getData();
+        }
+
+        return $fieldData;
+    }
+
+
 
 }

@@ -145,6 +145,14 @@ abstract class Field implements BaseField
         ];
     }
 
+    public function getData()
+    {
+        return [
+            'name' => $this->getName(),
+            'value' => $this->read(),
+        ];
+    }
+
     public function getObject()
     {
         return $this->getEdit()->getObject();

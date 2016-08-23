@@ -83,4 +83,31 @@ class AdminController extends Controller
 
     }
 
+    public function get(Request $request, LaraPanel $laraPanel, $panel, $admin, $id)
+    {
+        $laraPanel->select($panel, $admin);
+        $panel = $laraPanel->getPanel();
+        $admin = $laraPanel->getAdmin();
+
+        if($admin == null)
+        {
+            throw new NotFoundHttpException();
+        }
+
+        $admin->getEdit()->select($id);
+
+
+        if(!$request->isXmlHttpRequest()){
+            //TODO: Show admin page and select $id
+        }
+
+
+        $response = [
+            'fields' => $admin->getEdit()->getData(),
+            'actions' => [], //TODO: Per field action permissions
+        ];
+
+        return $response;
+    }
+
 }
