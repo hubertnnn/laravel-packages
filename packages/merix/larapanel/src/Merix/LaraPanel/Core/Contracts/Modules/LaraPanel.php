@@ -47,4 +47,6 @@ interface LaraPanel extends Module
     /** @return FieldFactory */
     public function getFieldFactory();
 
+    public function log($message, $type = 'DEBUG');
+
 }

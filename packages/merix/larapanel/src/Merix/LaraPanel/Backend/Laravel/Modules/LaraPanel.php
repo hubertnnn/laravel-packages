@@ -111,4 +111,29 @@ class LaraPanel implements BaseLaraPanel
         return $this->fieldFactory;
     }
 
+    public function log($message, $type = 'DEBUG')
+    {
+        switch($type)
+        {
+            case 'DEBUG':
+                \Log::debug($message);
+                break;
+            case 'INFO':
+                \Log::info($message);
+                break;
+            case 'WARNING':
+                \Log::warning($message);
+                break;
+            case 'ERROR':
+                \Log::error($message);
+                break;
+            case 'CRITICAL':
+                \Log::critical($message);
+                break;
+            default:
+                \Log::debug($message);
+                break;
+        }
+    }
+
 }
