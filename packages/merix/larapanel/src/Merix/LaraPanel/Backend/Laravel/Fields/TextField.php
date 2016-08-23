@@ -7,18 +7,35 @@ class TextField extends Field
 {
     public function getType()
     {
-
         return 'text';
     }
 
+    /**
+     * @param $field Field
+     * @return string
+     */
     protected function doRead($field)
     {
-        // TODO: Implement doRead() method.
+        $value = $this->getObject()->{$this->getField()};
+
+        if(is_string($value))
+            return $value;
+
+        if(is_object($value) && method_exists($value, 'toString'))
+            return $value->toString();
+
+        if(is_object($value) && method_exists($value, '__toString'))
+            return $value->__toString();
+
+        if(settype($value, 'string'))
+            return $value;
+
+        return ''; // There must be a string, not null
     }
 
     protected function doWrite($field, $value)
     {
-        // TODO: Implement doWrite() method.
+        $this->getObject()->{$this->getField()} = $value;
     }
 
     protected function doSearch($field, $data)
