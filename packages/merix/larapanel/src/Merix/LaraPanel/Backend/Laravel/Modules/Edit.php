@@ -42,7 +42,7 @@ class Edit implements BaseEdit
     // TODO: Get correct actions from config
     protected function initActions()
     {
-        $this->actions = new ActionManager($this, $this->getConfig());
+        $this->actions = new ActionManager($this->getAdmin(), $this->getConfig());
     }
 
     protected function initStructure()

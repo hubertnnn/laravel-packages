@@ -4,20 +4,27 @@ namespace Merix\LaraPanel\Backend\Laravel\Managers;
 
 use Merix\LaraPanel\Backend\Laravel\Components\Action;
 use Merix\LaraPanel\Core\Contracts\Managers\ActionManager as BaseActionManager;
+use Merix\LaraPanel\Core\Contracts\Modules\Admin;
 use Merix\LaraPanel\Core\Contracts\Modules\Config;
+use Merix\LaraPanel\Core\Contracts\Modules\Panel;
+use Merix\LaraPanel\Core\Traits\OwnerAwareTrait;
 
 class ActionManager implements BaseActionManager
 {
-    protected $owner;
+    use OwnerAwareTrait;
 
     protected $actions;
 
 
+    /**
+     * @param $owner Admin|Panel
+     * @param $config
+     */
     public function __construct($owner, $config)
     {
         $this->owner = $owner;
 
-        $this->init($owner->getConfig());
+        $this->init($config);
     }
 
     protected function init(Config $config)
@@ -39,19 +46,19 @@ class ActionManager implements BaseActionManager
      */
     public function parseAction($data)
     {
-        $name       = $data->getValue('name', $this);
-        $label      = $data->getValue('label', $this, '');
-        $class      = $data->getValue('class', $this, '');
-        $icon       = $data->getValue('icon', $this, null);
-        $tooltip    = $data->getValue('tooltip', $this, null);
-        $path       = $data->getValue('path', $this, null);
-        $redirect   = $data->getValue('redirect', $this, null);
-        $visible    = $data->getValue('visible', $this, true);
-        $allowed    = $data->getValue('allowed', $this, true);
+        $name       = $data->getValue('name', $this->getOwner());
+        $label      = $data->getValue('label', $this->getOwner(), '');
+        $class      = $data->getValue('class', $this->getOwner(), '');
+        $icon       = $data->getValue('icon', $this->getOwner(), null);
+        $tooltip    = $data->getValue('tooltip', $this->getOwner(), null);
+        $path       = $data->getValue('path', $this->getOwner(), null);
+        $redirect   = $data->getValue('redirect', $this->getOwner(), null);
+        $visible    = $data->getValue('visible', $this->getOwner(), true);
+        $allowed    = $data->getValue('allowed', $this->getOwner(), true);
 
         $handler    = $data->getClosure('handle');
 
-        $action = new Action($this->owner->getLaraPanel(), $this->owner, $name, $handler, $label, $class, $icon, $tooltip, $redirect, $path, $visible, $allowed);
+        $action = new Action($this->owner->getLaraPanel(), $this->getOwner(), $name, $handler, $label, $class, $icon, $tooltip, $redirect, $path, $visible, $allowed);
 
         return $action;
     }
@@ -99,12 +106,6 @@ class ActionManager implements BaseActionManager
         }
     }
 
-
-
-    public function getOwner()
-    {
-        return $this->owner;
-    }
 
     public function get($name)
     {
