@@ -28,11 +28,16 @@ interface Field
     public function getStructure();
     public function getData();
 
+    public function serialize($data);    //Turn object data to json array
+    public function deserialize($data);  //Turn json array to object data
+
     public function read();         // Return json serialized value for field
     public function write($value);  // Set value of field to this serialized value
     public function search($data);  // Do some local communication between field frontend and backend
 
     public function getObject();    // Return currently selected object
+
+    public function getValidator();
 
 }
 

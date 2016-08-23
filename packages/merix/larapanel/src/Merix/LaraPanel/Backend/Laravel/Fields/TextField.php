@@ -44,4 +44,16 @@ class TextField extends Field
     }
 
 
+    public function serialize($data)
+    {
+        return ['value' => $data];
+    }
+
+    public function deserialize($data)
+    {
+        if(!isset($data['value']))
+            return '';
+
+        return $data['value'];
+    }
 }

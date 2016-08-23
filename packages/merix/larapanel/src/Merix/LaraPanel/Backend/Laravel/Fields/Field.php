@@ -30,6 +30,7 @@ abstract class Field implements BaseField
     protected $section;
     protected $readOnly;
     protected $depends;
+    protected $validator;
 
 
     /**
@@ -60,6 +61,7 @@ abstract class Field implements BaseField
         $this->section = $this->getConfigValue('section');
         $this->readOnly = $this->getConfigValue('readonly');
         $this->depends = $this->getConfigValue('depends');
+        $this->validator = $this->getConfigValue('validator');
     }
 
     protected function getDefaultParameters()
@@ -125,6 +127,11 @@ abstract class Field implements BaseField
     public function getDepends()
     {
         return $this->depends;
+    }
+
+    public function getValidator()
+    {
+        return $this->validator;
     }
 
 
@@ -194,5 +201,10 @@ abstract class Field implements BaseField
     protected abstract function doWrite($field, $value);
 
     protected abstract function doSearch($field, $data);
+
+    
+    public abstract function serialize($data);
+
+    public abstract function deserialize($data);
 
 }
