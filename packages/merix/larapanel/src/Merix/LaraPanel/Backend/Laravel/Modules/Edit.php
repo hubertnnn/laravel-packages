@@ -233,7 +233,9 @@ class Edit implements BaseEdit
 
         foreach($this->getFields() as $field)
         {
-            $fieldData[] = $field->serialize($field->get());
+            $fd = $field->serialize($field->get());
+            if($fd !== null)
+                $fieldData[] = $fd;
         }
 
         return $fieldData;

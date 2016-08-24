@@ -37,4 +37,10 @@ class TextField extends Field
         $this->getObject()->{$this->getField()} = Convert::toString($value);
     }
 
+    public function getStructure()
+    {
+        $structure = parent::getStructure();
+        $structure['editor'] = $this->editor;
+        return $structure;
+    }
 }

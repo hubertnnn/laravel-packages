@@ -41,6 +41,9 @@ interface Field
     // Return type of field
     public function getType();
 
+    // Return knowledge required by frontend part to render this field
+    public function getStructure();
+
     // Convert between json and real data
     public function serialize($data);
     public function deserialize($serialize);

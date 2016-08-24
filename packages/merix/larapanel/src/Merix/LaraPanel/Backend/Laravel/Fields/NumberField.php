@@ -14,12 +14,12 @@ class NumberField extends Field
 
     protected function doGet()
     {
-        return Convert::toBool($this->getObject()->{$this->getField()});
+        return Convert::toInteger($this->getObject()->{$this->getField()});
     }
 
     protected function doSet($value)
     {
-        $this->getObject()->{$this->getField()} = Convert::toBool($value);
+        $this->getObject()->{$this->getField()} = Convert::toInteger($value);
     }
 
 }

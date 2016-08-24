@@ -95,8 +95,10 @@ class AdminController extends Controller
             throw new NotFoundHttpException();
         }
 
-        $admin->getEdit()->select($id);
-
+        if(!$admin->getEdit()->select($id))
+        {
+            throw new NotFoundHttpException();
+        }
 
         if(!$request->isXmlHttpRequest()){
             //TODO: Show admin page and select $id
@@ -123,8 +125,10 @@ class AdminController extends Controller
             throw new NotFoundHttpException();
         }
 
-        $admin->getEdit()->select($id);
-
+        if(!$admin->getEdit()->select($id))
+        {
+            throw new NotFoundHttpException();
+        }
 
         $response = $admin->getEdit()->storeData($request->input());
 
@@ -147,6 +151,8 @@ class AdminController extends Controller
         {
             throw new NotFoundHttpException();
         }
+
+        dump($admin->getEdit()->getObject()->tictock);
 
         $field = $admin->getEdit()->getField($field);
 
