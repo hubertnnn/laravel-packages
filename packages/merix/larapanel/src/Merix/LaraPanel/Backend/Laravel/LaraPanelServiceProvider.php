@@ -24,6 +24,9 @@ class LaraPanelServiceProvider extends ServiceProvider
         });
 
 
+        $this->loadViewsFrom(__DIR__.'/Resources/views', 'larapanel');
+
+
         require __DIR__ . '/Http/routes.php';
     }
 

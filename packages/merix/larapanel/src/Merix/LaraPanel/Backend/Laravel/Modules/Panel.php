@@ -124,7 +124,7 @@ class Panel implements BasePanel
 
     public function getResourceUrl()
     {
-        return asset('vendor/merix/larapanel/');
+        return asset('vendor/larapanel/');
     }
 
 }

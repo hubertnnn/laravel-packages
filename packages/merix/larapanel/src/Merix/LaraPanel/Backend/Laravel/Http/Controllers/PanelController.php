@@ -15,7 +15,7 @@ class PanelController extends Controller
     {
         $laraPanel->select($panel);
 
-        return 'html code of admin';
+        return view('larapanel::index', ['larapanel' => $laraPanel]);
     }
 
     public function panel(LaraPanel $laraPanel, $panel)
