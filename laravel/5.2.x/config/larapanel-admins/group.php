@@ -124,6 +124,13 @@ return [
                 'name' => 'picture',
                 'type' => 'file',
             ],
+            [
+                'type' => 'separator',
+            ],
+            [
+                'name' => 'tictock',
+                'type' => 'datetime',
+            ],
         ],
 
 
