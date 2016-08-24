@@ -120,6 +120,10 @@ return [
 
                 'validator' => 'required|email|unique:users',
             ],
+            [
+                'name' => 'picture',
+                'type' => 'file',
+            ],
         ],
 
 

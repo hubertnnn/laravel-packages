@@ -4,17 +4,22 @@
 
         <script>
             function test(){
-                url = 'http://localhost:8000/admin/group/510/__store';
+                url = 'http://localhost:8000/admin/group/0/__store';
 
                 data = {
                     "fields": [
                         {
                             'name': 'name',
-                            'value': 'Ala4a'
+                            'value': 'Ala5'
                         },
                         {
                             'name': 'email',
-                            'value': 'makota4@example.com'
+                            'value': 'makota5@example.com'
+                        },
+                        {
+                            'name': 'picture',
+                            'value': 'picture.jpg',
+                            'base64': 'dG8ganXFvCBqZXN0IGtvbmllYw=='
                         }
                     ]
                 };
