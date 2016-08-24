@@ -37,6 +37,8 @@ class FieldFactory implements BaseFieldFactory
 
         $this->registerField('color',       'Merix\LaraPanel\Backend\Laravel\Fields\ColorField',    []);
 
+        $this->registerField('separator',   'Merix\LaraPanel\Backend\Laravel\Fields\SeparatorField',    []);
+
     }
 
     public function registerField($type, $class, $defaultParameters = [])
