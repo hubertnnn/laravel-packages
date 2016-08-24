@@ -3,6 +3,8 @@
 namespace Merix\LaraPanel\Backend\Laravel\Fields;
 
 
+use Merix\LaraPanel\Backend\Laravel\Utils\Convert;
+
 class TextField extends Field
 {
     public function getType()
@@ -10,50 +12,14 @@ class TextField extends Field
         return 'text';
     }
 
-    /**
-     * @param $field Field
-     * @return string
-     */
-    protected function doRead($field)
+    protected function doGet()
     {
-        $value = $this->getObject()->{$this->getField()};
-
-        if(is_string($value))
-            return $value;
-
-        if(is_object($value) && method_exists($value, 'toString'))
-            return $value->toString();
-
-        if(is_object($value) && method_exists($value, '__toString'))
-            return $value->__toString();
-
-        if(settype($value, 'string'))
-            return $value;
-
-        return ''; // There must be a string, not null
+        return Convert::toString($this->getObject()->{$this->getField()});
     }
 
-    protected function doWrite($field, $value)
+    protected function doSet($value)
     {
-        $this->getObject()->{$this->getField()} = $value;
+        $this->getObject()->{$this->getField()} = Convert::toString($value);
     }
 
-    protected function doSearch($field, $data)
-    {
-        // TODO: Implement doSearch() method.
-    }
-
-
-    public function serialize($data)
-    {
-        return ['value' => $data];
-    }
-
-    public function deserialize($data)
-    {
-        if(!isset($data['value']))
-            return '';
-
-        return $data['value'];
-    }
 }

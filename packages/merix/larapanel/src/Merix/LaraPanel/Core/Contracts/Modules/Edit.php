@@ -21,6 +21,8 @@ interface Edit extends Module
     // How it should work
     /** @return Field[] */
     public function getFields();
+    /** @return Field|null */
+    public function getField($field);
     /** @return ActionManager */
     public function getActions();
 

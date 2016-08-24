@@ -5,7 +5,6 @@ namespace Merix\LaraPanel\Backend\Laravel\Fields;
 use Merix\LaraPanel\Backend\Laravel\Modules\Edit;
 use Merix\LaraPanel\Core\Contracts\Components\Field as BaseField;
 use Merix\LaraPanel\Core\Contracts\Modules\Config;
-use Merix\LaraPanel\Core\Contracts\Modules\LaraPanel;
 use Merix\LaraPanel\Core\Traits\AdminAwareTrait;
 use Merix\LaraPanel\Core\Traits\EditAwareTrait;
 use Merix\LaraPanel\Core\Traits\LaraPanelAwareTrait;
@@ -169,42 +168,41 @@ abstract class Field implements BaseField
     // -----------------------------------------------------------------------------------------------------------------
     // Field logic
 
-    public function read()
+    public function get()
     {
-        $function = $this->getConfig()->getClosure('read');
+        $function = $this->getConfig()->getClosure('get');
         if($function !== null)
             return $function($this);
 
-        return $this->doRead($this);
+        return $this->doGet();
     }
 
-    public function write($value)
+    public function set($data)
     {
-        $function = $this->getConfig()->getClosure('write');
+        $function = $this->getConfig()->getClosure('set');
         if($function !== null)
             return $function($this);
 
-        return $this->doWrite($this, $value);
+        return $this->doSet($data);
     }
 
-    public function search($data)
+    protected abstract function doSet($data);
+    protected abstract function doGet();
+
+
+    public function serialize($data)
     {
-        $function = $this->getConfig()->getClosure('search');
-        if($function !== null)
-            return $function($this);
-
-        return $this->doSearch($this, $data);
+        return [
+            'name' => $this->getName(),
+            'value' => $data,
+        ];
     }
 
-    protected abstract function doRead($field);
-
-    protected abstract function doWrite($field, $value);
-
-    protected abstract function doSearch($field, $data);
-
-    
-    public abstract function serialize($data);
-
-    public abstract function deserialize($data);
+    public function deserialize($data)
+    {
+        if(!isset($data['value']))
+            return null;
+        return $data['value'];
+    }
 
 }

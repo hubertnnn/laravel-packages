@@ -228,7 +228,7 @@ class Edit implements BaseEdit
 
         foreach($this->getFields() as $field)
         {
-            $fieldData[] = $field->getData();
+            $fieldData[] = $field->serialize($field->get());
         }
 
         return $fieldData;
@@ -280,7 +280,7 @@ class Edit implements BaseEdit
             $fields = $this->getFields();
             foreach($values as $fieldName => $value)
             {
-                $fields[$fieldName]->write($value);
+                $fields[$fieldName]->set($value);
             }
 
             $this->getObject()->save();
@@ -370,6 +370,16 @@ class Edit implements BaseEdit
         }
 
         return implode('|', $rules);
+    }
+
+
+    public function getField($field)
+    {
+        $fields = $this->getFields();
+        if(!isset($fields[$field]))
+            return null;
+
+        return $fields[$field];
     }
 
 }

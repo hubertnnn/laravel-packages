@@ -7,11 +7,12 @@ namespace Merix\LaraPanel\Core\Contracts\Components;
 interface Field
 {
     public function __construct($owner, $config, $parameters);
-
     public function getAdmin();
 
+    // -----------------------------------------------------------------------------------------------------------------
+    // Field location (shared between fields)
+
     // What is the field
-    public function getType();
     public function getName();
     public function getField();
     public function getLabel();
@@ -24,20 +25,30 @@ interface Field
     public function getReadOnly();
     public function getDepends();
 
-    // Return structure used by js to render the field
-    public function getStructure();
-    public function getData();
+    //Validation
+    public function getValidator();
 
-    public function serialize($data);    //Turn object data to json array
-    public function deserialize($data);  //Turn json array to object data
-
-    public function read();         // Return json serialized value for field
-    public function write($value);  // Set value of field to this serialized value
-    public function search($data);  // Do some local communication between field frontend and backend
+    // -----------------------------------------------------------------------------------------------------------------
+    // Proxy for easier access
 
     public function getObject();    // Return currently selected object
 
-    public function getValidator();
 
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Field logic
+
+    // Return type of field
+    public function getType();
+
+    // Convert between json and real data
+    public function serialize($data);
+    public function deserialize($serialize);
+
+    // Set value in object
+    public function set($data);
+    public function get();
+
+    //TODO: Search
 }
 
