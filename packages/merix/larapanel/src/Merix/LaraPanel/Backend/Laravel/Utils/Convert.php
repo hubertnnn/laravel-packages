@@ -45,6 +45,29 @@ class Convert
         return 0;
     }
 
+    public static function toBool($value)
+    {
+        if(is_bool($value))
+            return $value;
+
+        if(is_object($value) && method_exists($value, 'toBoolean'))
+            return $value->toBoolean();
+
+        if(is_object($value) && method_exists($value, '__toBoolean'))
+            return $value->__toBoolean();
+
+        if(is_object($value) && method_exists($value, 'toBool'))
+            return $value->toBool();
+
+        if(is_object($value) && method_exists($value, '__toBool'))
+            return $value->__toBool();
+
+        if(settype($value, 'boolean'))
+            return $value;
+
+        return false;
+    }
+
     public static function fileSizeToHumanReadable($value)
     {
         $power = (int) log($value, 1000);

@@ -9,7 +9,7 @@ use Merix\LaraPanel\Core\Contracts\Components\DownloadableField;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class FileField extends TextField implements DownloadableField
+class FileField extends Field implements DownloadableField
 {
     protected $basePath;
 
@@ -32,6 +32,16 @@ class FileField extends TextField implements DownloadableField
     public function getType()
     {
         return 'file';
+    }
+
+    protected function doGet()
+    {
+        return Convert::toString($this->getObject()->{$this->getField()});
+    }
+
+    protected function doSet($value)
+    {
+        $this->getObject()->{$this->getField()} = Convert::toString($value);
     }
 
     protected function getBasePath()
@@ -79,7 +89,12 @@ class FileField extends TextField implements DownloadableField
 
     public function deserialize($data)
     {
+        // Check if value was provided
         if(!isset($data['value']))
+            return null;
+
+        // Validate value to make sure special character is not there
+        if(strpos($data['value'], '|') !== false)
             return null;
 
         if(isset($data['base64']))

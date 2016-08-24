@@ -19,8 +19,17 @@ class FieldFactory implements BaseFieldFactory
 
     protected function init()
     {
-        $this->registerField('text', 'Merix\LaraPanel\Backend\Laravel\Fields\TextField', []);
-        $this->registerField('file', 'Merix\LaraPanel\Backend\Laravel\Fields\FileField', []);
+        $this->registerField('bool',        'Merix\LaraPanel\Backend\Laravel\Fields\BooleanField',  []);
+        $this->registerField('number',      'Merix\LaraPanel\Backend\Laravel\Fields\NumberField',   []);
+
+        $this->registerField('text',        'Merix\LaraPanel\Backend\Laravel\Fields\TextField',     []);
+        $this->registerField('textarea',    'Merix\LaraPanel\Backend\Laravel\Fields\TextField',     ['editor' => 'textarea']);
+        $this->registerField('wyswig',      'Merix\LaraPanel\Backend\Laravel\Fields\TextField',     ['editor' => 'wyswig']);
+        $this->registerField('markdown',    'Merix\LaraPanel\Backend\Laravel\Fields\TextField',     ['editor' => 'markdown']);
+        $this->registerField('hidden',      'Merix\LaraPanel\Backend\Laravel\Fields\TextField',     ['editor' => 'hidden']);
+        $this->registerField('password',    'Merix\LaraPanel\Backend\Laravel\Fields\TextField',     ['editor' => 'password']);
+
+        $this->registerField('file',        'Merix\LaraPanel\Backend\Laravel\Fields\FileField',     []);
 
     }
 
