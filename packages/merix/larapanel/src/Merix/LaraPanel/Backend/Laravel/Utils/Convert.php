@@ -44,4 +44,37 @@ class Convert
 
         return 0;
     }
+
+    public static function fileSizeToHumanReadable($value)
+    {
+        $power = (int) log($value, 1000);
+        $value = round($value/pow(1000, $power), 2);
+
+        $letter = '';
+        switch($power)
+        {
+            case 0:
+                $letter = '';
+                break;
+            case 1:
+                $letter = 'k';
+                break;
+            case 2:
+                $letter = 'M';
+                break;
+            case 3:
+                $letter = 'G';
+                break;
+            case 4:
+                $letter = 'T';
+                break;
+            case 5:
+                $letter = 'P';
+                break;
+        }
+
+        return $value . $letter . 'B';
+    }
+
+
 }

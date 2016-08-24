@@ -13,4 +13,4 @@
 /{panel}/{admin}/{id}/__store
 
 /{panel}/{admin}/{id}/{field-name}/__thumb
-/{panel}/{admin}/{id}/{field-name}/__download
+/{panel}/{admin}/{id}/{field-name}/__download/{type}

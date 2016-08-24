@@ -4,6 +4,7 @@ namespace Merix\LaraPanel\Backend\Laravel\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Merix\LaraPanel\Core\Contracts\Components\DownloadableField;
 use Merix\LaraPanel\Core\Contracts\Modules\LaraPanel;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -129,6 +130,32 @@ class AdminController extends Controller
 
         return $response;
 
+    }
+
+    public function download(Request $request, LaraPanel $laraPanel, $panel, $admin, $id, $field, $type = null)
+    {
+        $laraPanel->select($panel, $admin);
+        $panel = $laraPanel->getPanel();
+        $admin = $laraPanel->getAdmin();
+
+        if($admin == null)
+        {
+            throw new NotFoundHttpException();
+        }
+
+        if(!$admin->getEdit()->select($id))
+        {
+            throw new NotFoundHttpException();
+        }
+
+        $field = $admin->getEdit()->getField($field);
+
+        if(($field == null) || !($field instanceof DownloadableField))
+        {
+            throw new NotFoundHttpException();
+        }
+
+        return $field->getDownload($type);
     }
 
 }

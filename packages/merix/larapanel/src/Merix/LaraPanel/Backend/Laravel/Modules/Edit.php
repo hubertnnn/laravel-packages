@@ -163,6 +163,11 @@ class Edit implements BaseEdit
         {
             $this->object = $this->getAdmin()->getQuery()->whereId($id)->first();
         }
+
+        if($this->object === null)
+            return false;
+        else
+            return true;
     }
 
 

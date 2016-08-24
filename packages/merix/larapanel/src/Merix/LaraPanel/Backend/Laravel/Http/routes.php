@@ -18,5 +18,8 @@ Route::group(['namespace' => '\Merix\LaraPanel\Backend\Laravel\Http\Controllers'
     Route::get('/{panel}/{admin}/{id}', 'AdminController@get')->where('panel', $panels)->name('larapanel.admin.get');
     Route::post('/{panel}/{admin}/{id}/__store', 'AdminController@store')->where('panel', $panels)->name('larapanel.admin.store');
 
+    Route::get('/{panel}/{admin}/{id}/{field}/__download', 'AdminController@download')->where('panel', $panels)->name('larapanel.field.download');
+    Route::get('/{panel}/{admin}/{id}/{field}/__download/{type}', 'AdminController@download')->where('panel', $panels)->name('larapanel.field.download.type');
+
 });
 

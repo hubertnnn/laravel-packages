@@ -20,6 +20,7 @@ class FieldFactory implements BaseFieldFactory
     protected function init()
     {
         $this->registerField('text', 'Merix\LaraPanel\Backend\Laravel\Fields\TextField', []);
+        $this->registerField('file', 'Merix\LaraPanel\Backend\Laravel\Fields\FileField', []);
 
     }
 
