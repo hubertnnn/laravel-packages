@@ -35,6 +35,8 @@ class FieldFactory implements BaseFieldFactory
         $this->registerField('date',        'Merix\LaraPanel\Backend\Laravel\Fields\DateTimeField', ['time' => false]);
         $this->registerField('time',        'Merix\LaraPanel\Backend\Laravel\Fields\DateTimeField', ['date' => false]);
 
+        $this->registerField('color',       'Merix\LaraPanel\Backend\Laravel\Fields\ColorField',    []);
+
     }
 
     public function registerField($type, $class, $defaultParameters = [])
