@@ -1,0 +1,30 @@
+larapanel:
+    private:
+        panel - data about current panel
+        admin - data about current admin
+        edit - data about current edit
+
+        adminCache - cached admins for later use (optional)
+
+
+
+        editStack - a stack of opened edit windows
+
+
+    public:
+        loadCore() - will load core of application (should be called only once)
+        load(admin) - will load selected admin page (if admin == null then load default) / switch page
+
+panel:
+    private:
+        type - (string) cms | panel
+        theme - (string) default | slate
+        name - (string) name of panel
+        icon - (string) path to icon
+        favicon - (string) path to favicon
+        menu - (Menu object)
+        actions - (ActionManager object)
+
+    public:
+        load() - will load the panel (called only once)
+
