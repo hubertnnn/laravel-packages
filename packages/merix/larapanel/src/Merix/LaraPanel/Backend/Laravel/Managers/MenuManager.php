@@ -153,7 +153,10 @@ class MenuManager implements BaseMenuManager
         $arr = [];
         foreach($this->getMenu() as $item)
         {
-            $arr[] = $item->toArray();
+            if($item->getParent() === null)
+            {
+                $arr[] = $item->toArray();
+            }
         }
 
         return $arr;
