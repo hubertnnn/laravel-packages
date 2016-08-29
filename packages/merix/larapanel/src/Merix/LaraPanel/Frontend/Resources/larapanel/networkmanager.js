@@ -12,11 +12,13 @@
             };
 
             var success = function(data){
-                if((data !== null) && ((typeof data) === 'object')) {
-                    defer.resolve(data);
-                } else {
-                    defer.reject(data);
-                }
+                defer.resolve(data);
+
+                //if((data !== null) && ((typeof data) === 'object')) {
+                //    defer.resolve(data);
+                //} else {
+                //    defer.reject(data);
+                //}
             };
 
             var failure = function(data){
